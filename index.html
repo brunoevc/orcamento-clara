@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinheiro Assessoria - PDV & Orçamentos v1.8 Enterprise</title>
+    <title>Clara Distribuidora - PDV & Orçamentos v1.9</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome para Ícones -->
@@ -18,13 +18,13 @@
         <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-emerald-600/50 border border-emerald-400/30 flex items-center justify-center shadow-inner">
-                    <i class="fa-solid fa-chart-pie text-emerald-300 text-lg"></i>
+                    <i class="fa-solid fa-carrot text-emerald-300 text-lg"></i>
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
-                        Pinheiro Assessoria <span class="text-[10px] bg-emerald-500/30 border border-emerald-400/30 px-2 py-0.5 rounded-full text-emerald-200">v1.8 Enterprise</span>
+                        Clara Distribuidora <span class="text-[10px] bg-emerald-500/30 border border-emerald-400/30 px-2 py-0.5 rounded-full text-emerald-200">v1.9</span>
                     </h1>
-                    <p class="text-xs text-emerald-200/80">Representações Comerciais, PDV & Gestão</p>
+                    <p class="text-xs text-emerald-200/80">Do produtor para a sua casa!</p>
                 </div>
             </div>
             <nav class="flex flex-wrap gap-1.5 mt-3 sm:mt-0">
@@ -56,7 +56,7 @@
                 <div class="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
-                <span><b>Proteção de Dados v1.8:</b> Sistema com backup seguro e relatórios em tempo real.</span>
+                <span><b>Proteção de Dados v1.9:</b> Sistema com backup seguro e relatórios em tempo real.</span>
             </div>
             <div class="flex gap-2">
                 <button onclick="exportarBackup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl font-semibold transition flex items-center gap-1.5">
@@ -185,7 +185,7 @@
                     <input type="hidden" id="prod-id">
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nome do Item</label>
-                        <input type="text" id="prod-nome" required placeholder="Ex: Consultoria / Produto" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                        <input type="text" id="prod-nome" required placeholder="Ex: Tomate / Consultoria" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                     </div>
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Preço Custo (R$)</label>
@@ -467,12 +467,12 @@
 
     <!-- Footer -->
     <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-auto shadow-inner">
-        Pinheiro Assessoria e Representações Comerciais • CPF 102.644.827-19 • Bruno Pinheiro • Pix: 21999869070
+        Clara Distribuidora de Verduras e Legumes • CPF 102.644.827-19 • Bruno Pinheiro • Pix: 21999869070
     </footer>
 
-    <!-- JavaScript Lógico Versão 1.8 Enterprise -->
+    <!-- JavaScript Lógico Versão 1.9 -->
     <script>
-        const STORAGE_KEY = 'pinheiro_sistema_v18_dados';
+        const STORAGE_KEY = 'clara_distribuidora_v19_dados';
         let filtroAtual = 'todas';
         let chartFatObj = null;
         let chartPagObj = null;
@@ -483,14 +483,14 @@
                 try { return JSON.parse(dadosSalvos); } catch(e) {}
             }
 
-            let pAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v17_dados'))?.produtos || JSON.parse(localStorage.getItem('pinheiro_produtos'));
-            let cAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v17_dados'))?.clientes || JSON.parse(localStorage.getItem('pinheiro_clientes'));
-            let vAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v17_dados'))?.vendas || JSON.parse(localStorage.getItem('pinheiro_vendas'));
-            let cotAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v17_dados'))?.contas || JSON.parse(localStorage.getItem('pinheiro_contas'));
+            let pAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v18_dados'))?.produtos || JSON.parse(localStorage.getItem('clara_produtos'));
+            let cAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v18_dados'))?.clientes || JSON.parse(localStorage.getItem('pinheiro_clientes'));
+            let vAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v18_dados'))?.vendas || JSON.parse(localStorage.getItem('pinheiro_vendas'));
+            let cotAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v18_dados'))?.contas || JSON.parse(localStorage.getItem('pinheiro_contas'));
 
             let dadosMigrados = {
-                produtos: pAntigos || [{ id: 1, nome: 'Consultoria / Serviço Exemplo', custo: 50.00, preco: 150.00, comissao: 0, controlar: 'Nao', estoque: 0 }],
-                clientes: cAntigos || [{ id: 1, nome: 'Cliente Exemplo Ltda', fone: '21988887777', email: 'cliente@exemplo.com' }],
+                produtos: pAntigos || [{ id: 1, nome: 'Tomate Longa Vida (Kg)', custo: 5.00, preco: 8.50, comissao: 0, controlar: 'Sim', estoque: 150 }],
+                clientes: cAntigos || [{ id: 1, nome: 'Restaurante Sabor & Arte', fone: '21988887777', email: 'contato@sabor.com' }],
                 vendas: vAntigas || [],
                 contas: cotAntigas || []
             };
@@ -512,11 +512,11 @@
         }
 
         function exportarBackup() {
-            let dados = { produtos, clientes, vendas, contas, versao: "1.8", dataBackup: new Date().toLocaleString('pt-BR') };
+            let dados = { produtos, clientes, vendas, contas, versao: "1.9", dataBackup: new Date().toLocaleString('pt-BR') };
             let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dados, null, 2));
             let downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `backup_pinheiro_v1.8_${new Date().toISOString().slice(0,10)}.json`);
+            downloadAnchor.setAttribute("download", `backup_clara_v1.9_${new Date().toISOString().slice(0,10)}.json`);
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
@@ -688,7 +688,7 @@
             document.getElementById('txt-total').innerText = `R$ ${total.toFixed(2)}`;
         }
 
-        // PRODUTOS COM COMISSÃO
+        // PRODUTOS
         function salvarProduto(e) {
             e.preventDefault();
             const idEdicao = document.getElementById('prod-id').value;
@@ -850,7 +850,7 @@
             }
         }
 
-        // TRANSAÇÃO & COMPROVANTE (WhatsApp, E-mail ou Impressão Térmica)
+        // TRANSAÇÃO & COMPROVANTE (WhatsApp, E-mail ou Impressão Térmica Profissional)
         function finalizarTransacao() {
             if(carrinho.length === 0) {
                 alert('O carrinho está vazio.');
@@ -891,7 +891,8 @@
         }
 
         function gerarTextoComprovante(venda) {
-            let texto = `🧾 *COMPROVANTE DE VENDA - PINHEIRO ASSESSORIA*\n`;
+            let texto = `🥦 *CLARA DISTRIBUIDORA DE VERDURAS E LEGUMES*\n`;
+            texto += `_Do produtor para a sua casa!_\n`;
             texto += `----------------------------------------\n`;
             texto += `📅 *Data:* ${venda.data}\n`;
             texto += `👤 *Cliente:* ${venda.cliente}\n`;
@@ -903,8 +904,8 @@
             });
             texto += `----------------------------------------\n`;
             texto += `💰 *TOTAL PAGO: R$ ${venda.total.toFixed(2)}*\n\n`;
-            texto += `*Pinheiro Assessoria e Representações Comerciais*\n`;
-            texto += `Chave Pix: 21999869070 (Bruno Pinheiro)`;
+            texto += `🏦 *Chave Pix:* 21999869070 (Bruno Pinheiro)\n`;
+            texto += `*Clara Distribuidora • CPF: 102.644.827-19*`;
             return texto;
         }
 
@@ -929,10 +930,18 @@
             if(!ultimaVendaGerada) return;
             let cliObj = clientes.find(c => c.nome === ultimaVendaGerada.cliente);
             let emailDest = cliObj && cliObj.email ? cliObj.email : '';
-            let assunto = encodeURIComponent(`Comprovante de Venda - Pinheiro Assessoria`);
+            let assunto = encodeURIComponent(`Comprovante de Venda - Clara Distribuidora`);
             let corpo = encodeURIComponent(gerarTextoComprovante(ultimaVendaGerada).replace(/\*/g, ''));
             window.location.href = `mailto:${emailDest}?subject=${assunto}&body=${corpo}`;
             fecharModalComprovante();
+        }
+
+        function enviarWhatsAppHistorico(idVenda) {
+            let venda = vendas.find(v => v.id == idVenda);
+            if(!venda) return;
+            let texto = gerarTextoComprovante(venda);
+            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
+            window.open(url, '_blank');
         }
 
         function imprimirComprovante(idVenda) {
@@ -943,34 +952,36 @@
             janela.document.write(`
                 <html>
                 <head>
-                    <title>Recibo - Pinheiro Assessoria</title>
+                    <title>Recibo - Clara Distribuidora</title>
                     <style>
-                        body { font-family: 'Courier New', Courier, monospace; font-size: 12px; width: 300px; padding: 10px; margin: 0 auto; color: #000; }
-                        h3, p { text-align: center; margin: 5px 0; }
-                        hr { border: dashed 1px #000; margin: 10px 0; }
+                        body { font-family: 'Courier New', Courier, monospace; font-size: 11px; width: 300px; padding: 10px; margin: 0 auto; color: #000; }
+                        h2, h4, p { text-align: center; margin: 4px 0; }
+                        hr { border: dashed 1px #000; margin: 8px 0; }
                         table { width: 100%; border-collapse: collapse; }
-                        th, td { text-align: left; padding: 4px 0; font-size: 11px; }
+                        th, td { text-align: left; padding: 3px 0; font-size: 10px; }
                         .right { text-align: right; }
                         .bold { font-weight: bold; }
                     </style>
                 </head>
                 <body>
-                    <h3>PINHEIRO ASSESSORIA</h3>
-                    <p>Representações Comerciais</p>
-                    <p>CPF: 102.644.827-19</p>
+                    <h2>CLARA DISTRIBUIDORA</h2>
+                    <h4>De Verduras e Legumes</h4>
+                    <p><i>Do produtor para a sua casa!</i></p>
+                    <p>CPF: 102.644.827-19 | Tel: (21) 99986-9070</p>
                     <hr>
                     <p><b>Data:</b> ${venda.data}</p>
                     <p><b>Cliente:</b> ${venda.cliente}</p>
                     <p><b>Pagamento:</b> ${venda.pagamento}</p>
                     <hr>
                     <table>
-                        <tr><th>Item</th><th class="right">QtdxVal</th><th class="right">Sub</th></tr>
+                        <tr><th>Item</th><th class="right">Qtd x Vl</th><th class="right">Subtotal</th></tr>
                         ${venda.itens.map(i => `<tr><td>${i.nome}</td><td class="right">${i.qtd}x${i.preco.toFixed(2)}</td><td class="right">R$${i.subtotal.toFixed(2)}</td></tr>`).join('')}
                     </table>
                     <hr>
-                    <p class="bold right" style="font-size: 14px;">TOTAL: R$ ${venda.total.toFixed(2)}</p>
+                    <p class="bold right" style="font-size: 13px;">TOTAL: R$ ${venda.total.toFixed(2)}</p>
                     <hr>
-                    <p style="text-align: center;">Obrigado pela preferência!</p>
+                    <p>Pix: 21999869070 (Bruno Pinheiro)</p>
+                    <p style="text-align: center; margin-top: 10px;">Obrigado pela preferência!</p>
                 </body>
                 </html>
             `);
@@ -988,7 +999,8 @@
             const pagamento = document.getElementById('select-pagamento').value;
             const total = carrinho.reduce((sum, item) => sum + item.subtotal, 0);
 
-            let texto = `📋 *ORÇAMENTO - PINHEIRO ASSESSORIA*\n`;
+            let texto = `📋 *ORÇAMENTO - CLARA DISTRIBUIDORA*\n`;
+            texto += `_Do produtor para a sua casa!_\n`;
             texto += `----------------------------------------\n`;
             texto += `👤 *Cliente:* ${cliente}\n`;
             texto += `📅 *Validade:* 3 dias\n`;
@@ -1005,7 +1017,7 @@
             texto += `• CPF: 102.644.827-19\n`;
             texto += `• Chave Pix: 21999869070\n`;
             texto += `----------------------------------------\n`;
-            texto += `*Pinheiro Assessoria e Representações Comerciais*`;
+            texto += `*Clara Distribuidora de Verduras e Legumes*`;
 
             const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
             window.open(url, '_blank');
@@ -1035,7 +1047,7 @@
             let faturamentoTotal = 0;
             let lucroTotal = 0;
             let hojeStr = new Date().toLocaleDateString('pt-BR');
-            let mesAtualStr = new Date().toISOString().slice(0, 7); // YYYY-MM
+            let mesAtualStr = new Date().toISOString().slice(0, 7);
 
             let vendasFiltradas = vendas.filter(v => {
                 let matchBusca = v.cliente.toLowerCase().includes(termoBusca);
@@ -1070,6 +1082,7 @@
                         <td class="p-3.5 text-right font-bold text-slate-800">R$ ${v.total.toFixed(2)}</td>
                         <td class="p-3.5 text-right font-bold text-emerald-600">R$ ${(v.lucro || 0).toFixed(2)}</td>
                         <td class="p-3.5 text-center flex justify-center gap-1.5">
+                            <button onclick="enviarWhatsAppHistorico(${v.id})" class="w-8 h-8 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition inline-flex items-center justify-center" title="Enviar no WhatsApp"><i class="fa-brands fa-whatsapp text-xs"></i></button>
                             <button onclick="imprimirComprovante(${v.id})" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition inline-flex items-center justify-center" title="Imprimir Recibo"><i class="fa-solid fa-print text-xs"></i></button>
                             <button onclick="abrirModalEdicaoVenda(${realIndex})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition inline-flex items-center justify-center" title="Editar Venda"><i class="fa-solid fa-pen text-xs"></i></button>
                         </td>
@@ -1083,7 +1096,6 @@
 
         // DASHBOARD EXECUTIVO (CHART.JS)
         function atualizarGraficos() {
-            // Gráfico 1: Faturamento últimos 7 dias
             let diasMap = {};
             for(let i=6; i>=0; i--) {
                 let d = new Date();
@@ -1122,7 +1134,6 @@
                 });
             }
 
-            // Gráfico 2: Formas de Pagamento
             let pagMap = { 'Pix': 0, 'Dinheiro': 0, 'Débito': 0 };
             vendas.forEach(v => {
                 if(pagMap[v.pagamento] !== undefined) pagMap[v.pagamento] += v.total;
