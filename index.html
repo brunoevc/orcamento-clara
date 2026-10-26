@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinheiro Assessoria - PDV & Orçamentos v1.6</title>
+    <title>Pinheiro Assessoria - PDV & Orçamentos v1.7</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome para Ícones -->
@@ -20,7 +20,7 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
-                        Pinheiro Assessoria <span class="text-[10px] bg-emerald-500/30 border border-emerald-400/30 px-2 py-0.5 rounded-full text-emerald-200">v1.6 Pro</span>
+                        Pinheiro Assessoria <span class="text-[10px] bg-emerald-500/30 border border-emerald-400/30 px-2 py-0.5 rounded-full text-emerald-200">v1.7 Pro</span>
                     </h1>
                     <p class="text-xs text-emerald-200/80">Gestão Comercial, Orçamentos & Caixa</p>
                 </div>
@@ -54,7 +54,7 @@
                 <div class="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
-                <span><b>Proteção de Dados v1.6:</b> Faça backup regular do sistema para total segurança.</span>
+                <span><b>Proteção de Dados v1.7:</b> Faça backup regular do sistema para total segurança.</span>
             </div>
             <div class="flex gap-2">
                 <button onclick="exportarBackup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl font-semibold transition flex items-center gap-1.5">
@@ -303,7 +303,7 @@
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
                 <div class="p-4 bg-slate-50/80 border-b border-slate-200/60 font-bold text-slate-700 text-xs uppercase tracking-wider flex items-center justify-between">
                     <span><i class="fa-solid fa-file-invoice-dollar text-emerald-600 mr-2"></i> Histórico Detalhado de Vendas</span>
-                    <span class="text-xs font-normal text-slate-500">Dica: Você pode editar a forma de pagamento clicando no botão de edição.</span>
+                    <span class="text-xs font-normal text-slate-500">Dica: Você pode editar o cliente e a forma de pagamento clicando no botão de edição.</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-sm">
@@ -402,11 +402,17 @@
         </div>
     </div>
 
-    <!-- Modal de Edição de Venda (Forma de Pagamento) -->
+    <!-- Modal de Edição de Venda (Cliente e Forma de Pagamento) -->
     <div id="modal-editar-venda" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-sm w-full p-6 shadow-2xl space-y-4">
             <h3 class="font-bold text-base text-slate-800 border-b pb-2"><i class="fa-solid fa-pen text-emerald-600 mr-2"></i>Editar Fechamento da Venda</h3>
             <input type="hidden" id="edit-venda-index">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Cliente</label>
+                <select id="edit-venda-cliente" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <option value="Cliente Balcão / Geral">Cliente Balcão / Geral</option>
+                </select>
+            </div>
             <div>
                 <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Forma de Pagamento</label>
                 <select id="edit-venda-pagamento" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
@@ -427,9 +433,9 @@
         Pinheiro Assessoria e Representações Comerciais • CPF 102.644.827-19 • Bruno Pinheiro • Pix: 21999869070
     </footer>
 
-    <!-- JavaScript Lógico Versão 1.6 -->
+    <!-- JavaScript Lógico Versão 1.7 -->
     <script>
-        const STORAGE_KEY = 'pinheiro_sistema_v16_dados';
+        const STORAGE_KEY = 'pinheiro_sistema_v17_dados';
 
         function carregarDados() {
             let dadosSalvos = localStorage.getItem(STORAGE_KEY);
@@ -437,10 +443,10 @@
                 try { return JSON.parse(dadosSalvos); } catch(e) {}
             }
 
-            let pAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v15_dados'))?.produtos || JSON.parse(localStorage.getItem('pinheiro_produtos'));
-            let cAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v15_dados'))?.clientes || JSON.parse(localStorage.getItem('pinheiro_clientes'));
-            let vAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v15_dados'))?.vendas || JSON.parse(localStorage.getItem('pinheiro_vendas'));
-            let cotAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v15_dados'))?.contas || JSON.parse(localStorage.getItem('pinheiro_contas'));
+            let pAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v16_dados'))?.produtos || JSON.parse(localStorage.getItem('pinheiro_produtos'));
+            let cAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v16_dados'))?.clientes || JSON.parse(localStorage.getItem('pinheiro_clientes'));
+            let vAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v16_dados'))?.vendas || JSON.parse(localStorage.getItem('pinheiro_vendas'));
+            let cotAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v16_dados'))?.contas || JSON.parse(localStorage.getItem('pinheiro_contas'));
 
             let dadosMigrados = {
                 produtos: pAntigos || [{ id: 1, nome: 'Consultoria / Serviço Exemplo', custo: 50.00, preco: 150.00, controlar: 'Nao', estoque: 0 }],
@@ -466,11 +472,11 @@
         }
 
         function exportarBackup() {
-            let dados = { produtos, clientes, vendas, contas, versao: "1.6", dataBackup: new Date().toLocaleString('pt-BR') };
+            let dados = { produtos, clientes, vendas, contas, versao: "1.7", dataBackup: new Date().toLocaleString('pt-BR') };
             let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dados, null, 2));
             let downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `backup_pinheiro_v1.6_${new Date().toISOString().slice(0,10)}.json`);
+            downloadAnchor.setAttribute("download", `backup_pinheiro_v1.7_${new Date().toISOString().slice(0,10)}.json`);
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
@@ -529,19 +535,23 @@
 
         function atualizarSelects() {
             const selProd = document.getElementById('select-produto');
-            if(!selProd) return;
-            selProd.innerHTML = '<option value="">Selecione um item...</option>';
-            produtos.forEach(p => {
-                let infoEstoque = p.controlar === 'Sim' ? ` (Estoque: ${p.estoque})` : '';
-                selProd.innerHTML += `<option value="${p.id}">${p.nome} - R$ ${p.preco.toFixed(2)}${infoEstoque}</option>`;
-            });
+            if(selProd) {
+                selProd.innerHTML = '<option value="">Selecione um item...</option>';
+                produtos.forEach(p => {
+                    let infoEstoque = p.controlar === 'Sim' ? ` (Estoque: ${p.estoque})` : '';
+                    selProd.innerHTML += `<option value="${p.id}">${p.nome} - R$ ${p.preco.toFixed(2)}${infoEstoque}</option>`;
+                });
+            }
 
             const selCli = document.getElementById('select-cliente');
-            if(!selCli) return;
-            selCli.innerHTML = '<option value="">Cliente Balcão / Geral</option>';
+            const editCli = document.getElementById('edit-venda-cliente');
+            let opcoesCli = '<option value="Cliente Balcão / Geral">Cliente Balcão / Geral</option>';
             clientes.forEach(c => {
-                selCli.innerHTML += `<option value="${c.nome}">${c.nome}</option>`;
+                opcoesCli += `<option value="${c.nome}">${c.nome}</option>`;
             });
+
+            if(selCli) selCli.innerHTML = opcoesCli;
+            if(editCli) editCli.innerHTML = opcoesCli;
         }
 
         function adicionarItemCarrinho() {
@@ -575,18 +585,15 @@
             renderCarrinho();
         }
 
-        // NOVO: Edição de Preço Direto no Caixa com Atualização Automática no Cadastro
         function alterarPrecoCarrinho(index, novoPreçoStr) {
             let novoPreco = parseFloat(novoPrecoStr);
             if(isNaN(novoPreco) || novoPreco < 0) return;
 
             let item = carrinho[index];
             if(item.preco !== novoPreco) {
-                let diffPreco = novoPreco - item.preco;
                 item.preco = novoPreco;
                 item.subtotal = item.preco * item.qtd;
 
-                // Atualizar automaticamente no Cadastro de Produtos
                 let prodCadastrado = produtos.find(p => p.id == item.id);
                 if(prodCadastrado) {
                     let novoCusto = prompt(`O preço de venda foi alterado para R$ ${novoPreco.toFixed(2)}. Informe o preço de COMPRA (Custo) atualizado para este item:`, prodCadastrado.custo);
@@ -800,7 +807,7 @@
                 alert('O carrinho está vazio.');
                 return;
             }
-            const cliente = document.getElementById('select-cliente').value || 'Cliente Geral';
+            const cliente = document.getElementById('select-cliente').value || 'Cliente Balcão / Geral';
             const pagamento = document.getElementById('select-pagamento').value;
             const total = carrinho.reduce((sum, item) => sum + item.subtotal, 0);
             const totalCusto = carrinho.reduce((sum, item) => sum + item.subtotalCusto, 0);
@@ -827,7 +834,6 @@
             ultimaVendaGerada = novaVenda;
             salvarDadosLocal();
 
-            // Abrir Modal de Comprovante Pós-Venda
             mostrarModalComprovante(novaVenda);
             carrinho = [];
             renderCarrinho();
@@ -869,7 +875,7 @@
                 alert('Adicione itens ao carrinho para gerar o orçamento.');
                 return;
             }
-            const cliente = document.getElementById('select-cliente').value || 'Cliente Geral';
+            const cliente = document.getElementById('select-cliente').value || 'Cliente Balcão / Geral';
             const pagamento = document.getElementById('select-pagamento').value;
             const total = carrinho.reduce((sum, item) => sum + item.subtotal, 0);
 
@@ -896,10 +902,11 @@
             window.open(url, '_blank');
         }
 
-        // EDIÇÃO DE VENDAS (Correção de forma de pagamento)
+        // EDIÇÃO DE VENDAS (Cliente e Pagamento)
         function abrirModalEdicaoVenda(index) {
             let venda = vendas[index];
             document.getElementById('edit-venda-index').value = index;
+            document.getElementById('edit-venda-cliente').value = venda.cliente;
             document.getElementById('edit-venda-pagamento').value = venda.pagamento;
             document.getElementById('modal-editar-venda').classList.remove('hidden');
         }
@@ -910,13 +917,15 @@
 
         function salvarEdicaoVenda() {
             let index = parseInt(document.getElementById('edit-venda-index').value);
+            let novoCliente = document.getElementById('edit-venda-cliente').value;
             let novoPagamento = document.getElementById('edit-venda-pagamento').value;
             if(!isNaN(index) && vendas[index]) {
+                vendas[index].cliente = novoCliente;
                 vendas[index].pagamento = novoPagamento;
                 salvarDadosLocal();
                 renderVendas();
                 fecharModalEdicaoVenda();
-                alert('Forma de pagamento atualizada com sucesso!');
+                alert('Fechamento da venda atualizado com sucesso!');
             }
         }
 
@@ -946,7 +955,7 @@
                         <td class="p-3.5 text-right font-bold text-slate-800">R$ ${v.total.toFixed(2)}</td>
                         <td class="p-3.5 text-right font-bold text-emerald-600">R$ ${(v.lucro || 0).toFixed(2)}</td>
                         <td class="p-3.5 text-center">
-                            <button onclick="abrirModalEdicaoVenda(${realIndex})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition inline-flex items-center justify-center" title="Editar Pagamento"><i class="fa-solid fa-pen text-xs"></i></button>
+                            <button onclick="abrirModalEdicaoVenda(${realIndex})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition inline-flex items-center justify-center" title="Editar Venda"><i class="fa-solid fa-pen text-xs"></i></button>
                         </td>
                     </tr>
                 `;
