@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Orçamento e Vendas - Pinheiro Assessoria</title>
+    <title>Sistema de Orçamento e Vendas v1.4 - Pinheiro Assessoria</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome para Ícones -->
@@ -16,7 +16,7 @@
         <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
             <div>
                 <h1 class="text-xl font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-briefcase"></i> Pinheiro Assessoria e Representações Comerciais
+                    <i class="fa-solid fa-briefcase"></i> Pinheiro Assessoria <span class="text-xs bg-emerald-800 px-2 py-0.5 rounded text-emerald-200">v1.4</span>
                 </h1>
                 <p class="text-xs text-emerald-100">PDV, Orçamentos & Financeiro | Bruno Pinheiro</p>
             </div>
@@ -25,13 +25,13 @@
                     <i class="fa-solid fa-cash-register"></i> Caixa
                 </button>
                 <button onclick="switchTab('produtos')" id="btn-produtos" class="px-3 py-2 bg-emerald-900/50 rounded-lg text-xs sm:text-sm font-medium hover:bg-emerald-600 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-boxes-stacked"></i> Itens / Serviços
+                    <i class="fa-solid fa-boxes-stacked"></i> Itens
                 </button>
                 <button onclick="switchTab('clientes')" id="btn-clientes" class="px-3 py-2 bg-emerald-900/50 rounded-lg text-xs sm:text-sm font-medium hover:bg-emerald-600 transition flex items-center gap-1.5">
                     <i class="fa-solid fa-users"></i> Clientes
                 </button>
                 <button onclick="switchTab('vendas')" id="btn-vendas" class="px-3 py-2 bg-emerald-900/50 rounded-lg text-xs sm:text-sm font-medium hover:bg-emerald-600 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-file-invoice-dollar"></i> Vendas & Lucro
+                    <i class="fa-solid fa-file-invoice-dollar"></i> Vendas
                 </button>
                 <button onclick="switchTab('financeiro')" id="btn-financeiro" class="px-3 py-2 bg-emerald-900/50 rounded-lg text-xs sm:text-sm font-medium hover:bg-emerald-600 transition flex items-center gap-1.5">
                     <i class="fa-solid fa-wallet"></i> Contas
@@ -41,7 +41,24 @@
     </header>
 
     <!-- Main Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6">
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-4">
+
+        <!-- Barra de Segurança e Backup -->
+        <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 flex flex-wrap justify-between items-center gap-3 text-xs">
+            <div class="flex items-center gap-2 text-slate-600">
+                <i class="fa-solid fa-shield-halved text-emerald-600 text-base"></i>
+                <span><b>Segurança de Dados:</b> Faça backup regular do sistema para evitar perdas.</span>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="exportarBackup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5">
+                    <i class="fa-solid fa-download text-emerald-600"></i> Baixar Backup
+                </button>
+                <label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-upload text-blue-600"></i> Restaurar Backup
+                    <input type="file" id="input-backup" accept=".json" onchange="importarBackup(event)" class="hidden">
+                </label>
+            </div>
+        </div>
 
         <!-- ABA: PDV / ORÇAMENTO -->
         <section id="tab-pdv" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -343,25 +360,107 @@
         Pinheiro Assessoria e Representações Comerciais • CPF 102.644.827-19 • Bruno Pinheiro • Pix: 21999869070
     </footer>
 
-    <!-- JavaScript Lógico -->
+    <!-- JavaScript Lógico com Recuperação de Versões Anteriores -->
     <script>
-        let produtos = JSON.parse(localStorage.getItem('pinheiro_produtos')) || [
-            { id: 1, nome: 'Produto / Item Exemplo', custo: 50.00, preco: 100.00, controlar: 'Nao', estoque: 0 }
-        ];
+        // Chave Única Segura para a v1.4
+        const STORAGE_KEY = 'pinheiro_sistema_v1_dados';
 
-        let clientes = JSON.parse(localStorage.getItem('pinheiro_clientes')) || [
-            { id: 1, nome: 'Cliente Exemplo Ltda', fone: '21988887777' }
-        ];
+        // Sistema de Carregamento e Migração Segura de Versões Anteriores
+        function carregarDados() {
+            let dadosSalvos = localStorage.getItem(STORAGE_KEY);
+            if (dadosSalvos) {
+                return JSON.parse(dadosSalvos);
+            }
 
-        let vendas = JSON.parse(localStorage.getItem('pinheiro_vendas')) || [];
-        let contas = JSON.parse(localStorage.getItem('pinheiro_contas')) || [];
+            // Se não tiver na chave nova, tenta resgatar das chaves antigas automaticamente para não perder nada!
+            let produtosAntigos = JSON.parse(localStorage.getItem('pinheiro_produtos')) || JSON.parse(localStorage.getItem('clara_produtos'));
+            let clientesAntigos = JSON.parse(localStorage.getItem('pinheiro_clientes')) || JSON.parse(localStorage.getItem('clara_clientes'));
+            let vendas Antigas = JSON.parse(localStorage.getItem('pinheiro_vendas')) || JSON.parse(localStorage.getItem('clara_vendas'));
+            let contasAntigas = JSON.parse(localStorage.getItem('pinheiro_contas'));
+
+            let dadosMigrados = {
+                produtos: produtosAntigos || [
+                    { id: 1, nome: 'Produto / Item Exemplo', custo: 50.00, preco: 100.00, controlar: 'Nao', estoque: 0 }
+                ],
+                clientes: clientesAntigos || [
+                    { id: 1, nome: 'Cliente Exemplo Ltda', fone: '21988887777' }
+                ],
+                vendas: vendasAntigas || [],
+                contas: contasAntigas || []
+            };
+
+            salvarDadosGerais(dadosMigrados);
+            return dadosMigrados;
+        }
+
+        let appData = carregarDados();
+        let produtos = appData.produtos;
+        let clientes = appData.clientes;
+        let vendas = appData.vendas;
+        let contas = appData.contas;
         let carrinho = [];
 
         function salvarDadosLocal() {
-            localStorage.setItem('pinheiro_produtos', JSON.stringify(produtos));
-            localStorage.setItem('pinheiro_clientes', JSON.stringify(clientes));
-            localStorage.setItem('pinheiro_vendas', JSON.stringify(vendas));
-            localStorage.setItem('pinheiro_contas', JSON.stringify(contas));
+            let dados = {
+                produtos: produtos,
+                clientes: clientes,
+                vendas: vendas,
+                contas: contas
+            };
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
+        }
+
+        function salvarDadosGerais(dadosObj) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosObj));
+        }
+
+        // Funções de Backup (Exportar e Importar JSON)
+        function exportarBackup() {
+            let dados = {
+                produtos: produtos,
+                clientes: clientes,
+                vendas: vendas,
+                contas: contas,
+                versao: "1.4",
+                dataBackup: new Date().toLocaleString('pt-BR')
+            };
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dados, null, 2));
+            let downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `backup_pinheiro_v1.4_${new Date().toISOString().slice(0,10)}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+        }
+
+        function importarBackup(event) {
+            let arquivo = event.target.files[0];
+            if (!arquivo) return;
+
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let backup = JSON.parse(e.target.result);
+                    if (backup.produtos && backup.clientes) {
+                        produtos = backup.produtos || [];
+                        clientes = backup.clientes || [];
+                        vendas = backup.vendas || [];
+                        contas = backup.contas || [];
+                        salvarDadosLocal();
+                        atualizarSelects();
+                        renderProdutos();
+                        renderClientes();
+                        renderVendas();
+                        renderContas();
+                        alert('Backup restaurado com sucesso! Seus dados foram recuperados.');
+                    } else {
+                        alert('Arquivo de backup inválido.');
+                    }
+                } catch (err) {
+                    alert('Erro ao ler o arquivo de backup.');
+                }
+            };
+            reader.readAsText(arquivo);
         }
 
         function switchTab(tabName) {
@@ -470,7 +569,7 @@
             document.getElementById('txt-total').innerText = `R$ ${total.toFixed(2)}`;
         }
 
-        // PRODUTOS (Com suporte a Edição)
+        // PRODUTOS
         function salvarProduto(e) {
             e.preventDefault();
             const idEdicao = document.getElementById('prod-id').value;
@@ -481,7 +580,6 @@
             const estoque = parseFloat(document.getElementById('prod-estoque').value) || 0;
 
             if(idEdicao) {
-                // Atualizar existente
                 const p = produtos.find(item => item.id == idEdicao);
                 if(p) {
                     p.nome = nome;
@@ -492,7 +590,6 @@
                 }
                 alert('Item atualizado com sucesso!');
             } else {
-                // Criar novo
                 const novo = {
                     id: Date.now(),
                     nome: nome,
@@ -570,7 +667,7 @@
             }
         }
 
-        // CLIENTES (Com suporte a Edição)
+        // CLIENTES
         function salvarCliente(e) {
             e.preventDefault();
             const idEdicao = document.getElementById('cli-id').value;
