@@ -3,37 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Orçamento e Vendas v1.4 - Pinheiro Assessoria</title>
+    <title>Pinheiro Assessoria - PDV & Orçamentos v1.5</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome para Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
 
-    <!-- Header / Navbar -->
-    <header class="bg-emerald-700 text-white shadow-md">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center">
-            <div>
-                <h1 class="text-xl font-bold flex items-center gap-2">
-                    <i class="fa-solid fa-briefcase"></i> Pinheiro Assessoria <span class="text-xs bg-emerald-800 px-2 py-0.5 rounded text-emerald-200">v1.4</span>
-                </h1>
-                <p class="text-xs text-emerald-100">PDV, Orçamentos & Financeiro | Bruno Pinheiro</p>
+    <!-- Header / Navbar Dinâmico -->
+    <header class="bg-gradient-to-r from-emerald-800 to-teal-900 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-emerald-600/50 border border-emerald-400/30 flex items-center justify-center shadow-inner">
+                    <i class="fa-solid fa-chart-line text-emerald-300 text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
+                        Pinheiro Assessoria <span class="text-[10px] bg-emerald-500/30 border border-emerald-400/30 px-2 py-0.5 rounded-full text-emerald-200">v1.5 Pro</span>
+                    </h1>
+                    <p class="text-xs text-emerald-200/80">Gestão Comercial, Orçamentos & Caixa</p>
+                </div>
             </div>
-            <nav class="flex flex-wrap gap-1 mt-2 sm:mt-0">
-                <button onclick="switchTab('pdv')" id="btn-pdv" class="px-3 py-2 bg-emerald-800 rounded-lg text-xs sm:text-sm font-medium hover:bg-emerald-600 transition flex items-center gap-1.5 shadow-inner">
-                    <i class="fa-solid fa-cash-register"></i> Caixa
+            <nav class="flex flex-wrap gap-1.5 mt-3 sm:mt-0">
+                <button onclick="switchTab('pdv')" id="btn-pdv" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-emerald-700 shadow-md ring-2 ring-emerald-400/40">
+                    <i class="fa-solid fa-cash-register"></i> Caixa / PDV
                 </button>
-                <button onclick="switchTab('produtos')" id="btn-produtos" class="px-3 py-2 bg-emerald-900/50 rounded-lg text-xs sm:text-sm font-medium hover:bg-emerald-600 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-boxes-stacked"></i> Itens
+                <button onclick="switchTab('produtos')" id="btn-produtos" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-100">
+                    <i class="fa-solid fa-boxes-stacked"></i> Itens & Serviços
                 </button>
-                <button onclick="switchTab('clientes')" id="btn-clientes" class="px-3 py-2 bg-emerald-900/50 rounded-lg text-xs sm:text-sm font-medium hover:bg-emerald-600 transition flex items-center gap-1.5">
+                <button onclick="switchTab('clientes')" id="btn-clientes" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-100">
                     <i class="fa-solid fa-users"></i> Clientes
                 </button>
-                <button onclick="switchTab('vendas')" id="btn-vendas" class="px-3 py-2 bg-emerald-900/50 rounded-lg text-xs sm:text-sm font-medium hover:bg-emerald-600 transition flex items-center gap-1.5">
-                    <i class="fa-solid fa-file-invoice-dollar"></i> Vendas
+                <button onclick="switchTab('vendas')" id="btn-vendas" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-100">
+                    <i class="fa-solid fa-file-invoice-dollar"></i> Vendas & Lucro
                 </button>
-                <button onclick="switchTab('financeiro')" id="btn-financeiro" class="px-3 py-2 bg-emerald-900/50 rounded-lg text-xs sm:text-sm font-medium hover:bg-emerald-600 transition flex items-center gap-1.5">
+                <button onclick="switchTab('financeiro')" id="btn-financeiro" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-100">
                     <i class="fa-solid fa-wallet"></i> Contas
                 </button>
             </nav>
@@ -41,20 +46,22 @@
     </header>
 
     <!-- Main Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-4">
+    <main class="flex-grow max-w-7xl w-full mx-auto p-4 sm:p-6 space-y-5">
 
-        <!-- Barra de Segurança e Backup -->
-        <div class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 flex flex-wrap justify-between items-center gap-3 text-xs">
-            <div class="flex items-center gap-2 text-slate-600">
-                <i class="fa-solid fa-shield-halved text-emerald-600 text-base"></i>
-                <span><b>Segurança de Dados:</b> Faça backup regular do sistema para evitar perdas.</span>
+        <!-- Barra Superior de Segurança e Backup Dinâmica -->
+        <div class="bg-white p-3.5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-wrap justify-between items-center gap-3 text-xs">
+            <div class="flex items-center gap-2.5 text-slate-600">
+                <div class="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
+                    <i class="fa-solid fa-shield-halved"></i>
+                </div>
+                <span><b>Proteção de Dados v1.5:</b> Seus registros são salvos localmente e podem ser exportados a qualquer momento.</span>
             </div>
             <div class="flex gap-2">
-                <button onclick="exportarBackup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5">
+                <button onclick="exportarBackup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl font-semibold transition flex items-center gap-1.5">
                     <i class="fa-solid fa-download text-emerald-600"></i> Baixar Backup
                 </button>
-                <label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1.5 cursor-pointer">
-                    <i class="fa-solid fa-upload text-blue-600"></i> Restaurar Backup
+                <label class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl font-semibold transition flex items-center gap-1.5 cursor-pointer">
+                    <i class="fa-solid fa-upload text-blue-600"></i> Restaurar
                     <input type="file" id="input-backup" accept=".json" onchange="importarBackup(event)" class="hidden">
                 </label>
             </div>
@@ -63,67 +70,74 @@
         <!-- ABA: PDV / ORÇAMENTO -->
         <section id="tab-pdv" class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div class="lg:col-span-2 space-y-4">
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                    <div class="flex justify-between items-center mb-3">
-                        <h2 class="font-bold text-lg text-slate-700"><i class="fa-solid fa-cart-shopping text-emerald-600 mr-2"></i>Lançamento de Itens</h2>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="font-bold text-base text-slate-800 flex items-center gap-2">
+                            <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-cart-plus"></i></span>
+                            Lançamento Rápido de Itens
+                        </h2>
                     </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
                         <div class="sm:col-span-2">
-                            <label class="block text-xs font-semibold text-slate-500 mb-1">Selecionar Produto / Serviço</label>
-                            <select id="select-produto" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Produto ou Serviço</label>
+                            <select id="select-produto" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                                 <option value="">Selecione um item...</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-semibold text-slate-500 mb-1">Quantidade / Un.</label>
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Quantidade</label>
                             <div class="flex gap-2">
-                                <input type="number" id="input-qtd" value="1" min="0.01" step="any" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
-                                <button onclick="adicionarItemCarrinho()" class="bg-emerald-600 text-white px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition font-medium shadow-sm">
-                                    <i class="fa-solid fa-plus"></i>
+                                <input type="number" id="input-qtd" value="1" min="0.01" step="any" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                                <button onclick="adicionarItemCarrinho()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-4 rounded-xl transition font-medium shadow-md shadow-emerald-600/20 active:scale-95 flex items-center justify-center">
+                                    <i class="fa-solid fa-plus text-base"></i>
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                    <div class="p-4 bg-slate-50 border-b border-slate-100 font-semibold text-slate-700 text-sm">
-                        Itens no Carrinho / Orçamento
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                    <div class="p-4 bg-slate-50/80 border-b border-slate-200/60 font-bold text-slate-700 text-xs uppercase tracking-wider flex justify-between items-center">
+                        <span>Carrinho / Itens do Orçamento</span>
+                        <span id="badge-qtd-itens" class="bg-emerald-100 text-emerald-800 px-2.5 py-0.5 rounded-full text-xs">0 itens</span>
                     </div>
                     <div class="overflow-x-auto">
                         <table class="w-full text-left border-collapse text-sm">
                             <thead>
-                                <tr class="bg-slate-100/70 text-slate-600 border-b border-slate-200">
-                                    <th class="p-3 font-semibold">Item</th>
-                                    <th class="p-3 font-semibold text-center">Qtd</th>
-                                    <th class="p-3 font-semibold text-right">Preço Un.</th>
-                                    <th class="p-3 font-semibold text-right">Subtotal</th>
-                                    <th class="p-3 font-semibold text-center">Ações</th>
+                                <tr class="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                                    <th class="p-3.5 font-bold">Item</th>
+                                    <th class="p-3.5 font-bold text-center">Qtd</th>
+                                    <th class="p-3.5 font-bold text-right">Preço Un.</th>
+                                    <th class="p-3.5 font-bold text-right">Subtotal</th>
+                                    <th class="p-3.5 font-bold text-center">Ações</th>
                                 </tr>
                             </thead>
                             <tbody id="lista-carrinho">
-                                <tr><td colspan="5" class="p-6 text-center text-slate-400 italic">Nenhum item adicionado ainda.</td></tr>
+                                <tr><td colspan="5" class="p-8 text-center text-slate-400 italic">Nenhum item adicionado ao carrinho ainda.</td></tr>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Direita: Fechamento -->
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100 flex flex-col justify-between space-y-4">
+            <!-- Direita: Fechamento Dinâmico -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col justify-between space-y-4">
                 <div class="space-y-4">
-                    <h2 class="font-bold text-lg text-slate-700 border-b pb-2"><i class="fa-solid fa-file-lines text-emerald-600 mr-2"></i>Fechamento</h2>
+                    <h2 class="font-bold text-base text-slate-800 border-b border-slate-100 pb-3 flex items-center gap-2">
+                        <span class="w-8 h-8 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center"><i class="fa-solid fa-cash-register"></i></span>
+                        Fechamento
+                    </h2>
                     
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Cliente</label>
-                        <select id="select-cliente" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Cliente</label>
+                        <select id="select-cliente" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                             <option value="">Cliente Balcão / Geral</option>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Forma de Pagamento</label>
-                        <select id="select-pagamento" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Forma de Pagamento</label>
+                        <select id="select-pagamento" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                             <option value="Pix">Pix (Chave: 21999869070)</option>
                             <option value="Dinheiro">Dinheiro</option>
                             <option value="Débito">Cartão de Débito</option>
@@ -131,28 +145,28 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Validade do Orçamento</label>
-                        <input type="text" id="input-validade" value="3 dias" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm bg-slate-50" readonly>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Validade da Proposta</label>
+                        <input type="text" id="input-validade" value="3 dias" class="w-full p-3 bg-slate-100 border border-slate-200 rounded-xl text-sm text-slate-600 font-medium" readonly>
                     </div>
 
-                    <div class="bg-emerald-50 p-4 rounded-xl border border-emerald-100 space-y-2">
+                    <div class="bg-gradient-to-br from-emerald-50 to-teal-50 p-4 rounded-2xl border border-emerald-100 space-y-2">
                         <div class="flex justify-between text-slate-600 text-sm">
                             <span>Subtotal:</span>
-                            <span id="txt-subtotal">R$ 0,00</span>
+                            <span id="txt-subtotal" class="font-semibold">R$ 0,00</span>
                         </div>
-                        <div class="flex justify-between text-slate-800 font-bold text-xl pt-2 border-t border-emerald-200">
-                            <span>Total:</span>
+                        <div class="flex justify-between text-slate-900 font-extrabold text-xl pt-2 border-t border-emerald-200/60">
+                            <span>Total Geral:</span>
                             <span id="txt-total" class="text-emerald-700">R$ 0,00</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="space-y-2 pt-2">
-                    <button onclick="finalizarTransacao()" class="w-full bg-emerald-600 text-white py-3 rounded-xl font-bold hover:bg-emerald-700 transition shadow-sm flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-check"></i> Concluir Venda
+                <div class="space-y-2.5 pt-3">
+                    <button onclick="finalizarTransacao()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3.5 rounded-xl font-bold transition shadow-lg shadow-emerald-600/20 active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check-circle"></i> Concluir Venda / Caixa
                     </button>
-                    <button onclick="gerarOrcamentoWhatsApp()" class="w-full bg-green-500 text-white py-3 rounded-xl font-bold hover:bg-green-600 transition shadow-sm flex items-center justify-center gap-2">
-                        <i class="fa-brands fa-whatsapp"></i> Gerar Orçamento WhatsApp
+                    <button onclick="gerarOrcamentoWhatsApp()" class="w-full bg-teal-600 hover:bg-teal-700 text-white py-3.5 rounded-xl font-bold transition shadow-lg shadow-teal-600/20 active:scale-95 flex items-center justify-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> Gerar Orçamento WhatsApp
                     </button>
                 </div>
             </div>
@@ -160,58 +174,61 @@
 
         <!-- ABA: PRODUTOS E SERVIÇOS -->
         <section id="tab-produtos" class="hidden space-y-4">
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
-                <h2 id="titulo-form-produto" class="font-bold text-lg text-slate-700 mb-4"><i class="fa-solid fa-boxes-stacked text-emerald-600 mr-2"></i>Cadastrar Produto ou Serviço</h2>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80">
+                <h2 id="titulo-form-produto" class="font-bold text-base text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-boxes-stacked"></i></span>
+                    Cadastrar Produto ou Serviço
+                </h2>
                 <form id="form-produto" onsubmit="salvarProduto(event)" class="grid grid-cols-1 sm:grid-cols-5 gap-4">
                     <input type="hidden" id="prod-id">
                     <div class="sm:col-span-2">
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Nome do Item</label>
-                        <input type="text" id="prod-nome" required placeholder="Ex: Produto / Consultoria" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nome do Item</label>
+                        <input type="text" id="prod-nome" required placeholder="Ex: Consultoria / Produto" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Preço Custo (R$)</label>
-                        <input type="number" id="prod-custo" step="0.01" required placeholder="0.00" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Preço Custo (R$)</label>
+                        <input type="number" id="prod-custo" step="0.01" required placeholder="0.00" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Preço Venda (R$)</label>
-                        <input type="number" id="prod-preco" step="0.01" required placeholder="0.00" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Preço Venda (R$)</label>
+                        <input type="number" id="prod-preco" step="0.01" required placeholder="0.00" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Controle de Estoque?</label>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Controle Estoque</label>
                         <div class="flex gap-2">
-                            <select id="prod-controlar-estoque" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm">
+                            <select id="prod-controlar-estoque" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                                 <option value="Nao">Não controlar</option>
-                                <option value="Sim">Controlar Estoque</option>
+                                <option value="Sim">Controlar</option>
                             </select>
-                            <button type="submit" id="btn-salvar-produto" class="bg-emerald-600 text-white px-4 py-2.5 rounded-lg hover:bg-emerald-700 transition font-medium">Salvar</button>
+                            <button type="submit" id="btn-salvar-produto" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 rounded-xl transition font-semibold shadow-md">Salvar</button>
                         </div>
                     </div>
                 </form>
-                <div class="mt-3 flex items-center gap-3">
+                <div class="mt-3.5 flex items-center gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Qtd em Estoque (Opcional)</label>
-                        <input type="number" id="prod-estoque" step="any" value="0" placeholder="0" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Qtd Inicial Estoque</label>
+                        <input type="number" id="prod-estoque" step="any" value="0" placeholder="0" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm">
                     </div>
-                    <div id="container-cancelar-edicao" class="hidden pt-5">
-                        <button type="button" onclick="cancelarEdicaoProduto()" class="bg-slate-300 text-slate-700 px-4 py-2.5 rounded-lg hover:bg-slate-400 transition font-medium text-sm">Cancelar Edição</button>
+                    <div id="container-cancelar-edicao" class="hidden pt-6">
+                        <button type="button" onclick="cancelarEdicaoProduto()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-3 rounded-xl transition font-semibold text-xs">Cancelar Edição</button>
                     </div>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                <div class="p-4 bg-slate-50 border-b border-slate-100 font-semibold text-slate-700 text-sm">
-                    Catálogo de Produtos e Serviços
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                <div class="p-4 bg-slate-50/80 border-b border-slate-200/60 font-bold text-slate-700 text-xs uppercase tracking-wider">
+                    Catálogo de Cadastros
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-sm">
                         <thead>
-                            <tr class="bg-slate-100/70 text-slate-600 border-b border-slate-200">
-                                <th class="p-3 font-semibold">Nome</th>
-                                <th class="p-3 font-semibold text-right">Custo</th>
-                                <th class="p-3 font-semibold text-right">Venda</th>
-                                <th class="p-3 font-semibold text-right">Lucro Unit.</th>
-                                <th class="p-3 font-semibold text-center">Estoque</th>
-                                <th class="p-3 font-semibold text-center">Ações</th>
+                            <tr class="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                                <th class="p-3.5 font-bold">Nome</th>
+                                <th class="p-3.5 font-bold text-right">Custo</th>
+                                <th class="p-3.5 font-bold text-right">Venda</th>
+                                <th class="p-3.5 font-bold text-right">Lucro Unit.</th>
+                                <th class="p-3.5 font-bold text-center">Estoque</th>
+                                <th class="p-3.5 font-bold text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tabela-produtos-corpo"></tbody>
@@ -222,36 +239,39 @@
 
         <!-- ABA: CLIENTES -->
         <section id="tab-clientes" class="hidden space-y-4">
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
-                <h2 id="titulo-form-cliente" class="font-bold text-lg text-slate-700 mb-4"><i class="fa-solid fa-user-plus text-emerald-600 mr-2"></i>Cadastrar Cliente</h2>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80">
+                <h2 id="titulo-form-cliente" class="font-bold text-base text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-user-plus"></i></span>
+                    Cadastrar Cliente
+                </h2>
                 <form id="form-cliente" onsubmit="salvarCliente(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <input type="hidden" id="cli-id">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Nome do Cliente</label>
-                        <input type="text" id="cli-nome" required placeholder="Nome ou Empresa" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nome do Cliente</label>
+                        <input type="text" id="cli-nome" required placeholder="Nome ou Empresa" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Telefone / WhatsApp</label>
-                        <input type="text" id="cli-fone" placeholder="21 99999-9999" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Telefone / WhatsApp</label>
+                        <input type="text" id="cli-fone" placeholder="21 99999-9999" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                     </div>
                     <div class="flex items-end gap-2">
-                        <button type="submit" id="btn-salvar-cliente" class="w-full bg-emerald-600 text-white py-2.5 rounded-lg hover:bg-emerald-700 transition font-medium">Cadastrar</button>
-                        <button type="button" id="btn-cancelar-cliente" onclick="cancelarEdicaoCliente()" class="hidden bg-slate-300 text-slate-700 px-4 py-2.5 rounded-lg hover:bg-slate-400 transition font-medium text-sm">Cancelar</button>
+                        <button type="submit" id="btn-salvar-cliente" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl transition font-semibold shadow-md">Cadastrar</button>
+                        <button type="button" id="btn-cancelar-cliente" onclick="cancelarEdicaoCliente()" class="hidden bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-3 rounded-xl transition font-semibold text-xs">Cancelar</button>
                     </div>
                 </form>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                <div class="p-4 bg-slate-50 border-b border-slate-100 font-semibold text-slate-700 text-sm">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                <div class="p-4 bg-slate-50/80 border-b border-slate-200/60 font-bold text-slate-700 text-xs uppercase tracking-wider">
                     Clientes Cadastrados
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-sm">
                         <thead>
-                            <tr class="bg-slate-100/70 text-slate-600 border-b border-slate-200">
-                                <th class="p-3 font-semibold">Nome</th>
-                                <th class="p-3 font-semibold">Telefone</th>
-                                <th class="p-3 font-semibold text-center">Ações</th>
+                            <tr class="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                                <th class="p-3.5 font-bold">Nome</th>
+                                <th class="p-3.5 font-bold">Telefone</th>
+                                <th class="p-3.5 font-bold text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tabela-clientes-corpo"></tbody>
@@ -263,40 +283,40 @@
         <!-- ABA: HISTÓRICO DE VENDAS E LUCRO -->
         <section id="tab-vendas" class="hidden space-y-4">
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                    <span class="text-xs font-semibold text-slate-400 uppercase">Faturamento Total</span>
-                    <div id="resumo-faturamento" class="text-2xl font-bold text-slate-700 mt-1">R$ 0,00</div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Faturamento Total</span>
+                    <div id="resumo-faturamento" class="text-2xl font-extrabold text-slate-800 mt-1">R$ 0,00</div>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100">
-                    <span class="text-xs font-semibold text-slate-400 uppercase">Lucro Líquido Estimado</span>
-                    <div id="resumo-lucro" class="text-2xl font-bold text-emerald-600 mt-1">R$ 0,00</div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lucro Líquido Estimado</span>
+                    <div id="resumo-lucro" class="text-2xl font-extrabold text-emerald-600 mt-1">R$ 0,00</div>
                 </div>
-                <div class="bg-white p-4 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
                     <div>
-                        <span class="text-xs font-semibold text-slate-400 uppercase">Ações</span>
-                        <div class="text-sm font-medium text-slate-600 mt-1">Gerenciar Histórico</div>
+                        <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Gerenciamento</span>
+                        <div class="text-sm font-semibold text-slate-700 mt-1">Limpar Histórico</div>
                     </div>
-                    <button onclick="limparHistorico()" class="px-3 py-2 bg-red-50 text-red-600 rounded-lg text-xs font-bold hover:bg-red-100 transition">Limpar Vendas</button>
+                    <button onclick="limparHistorico()" class="px-4 py-2.5 bg-red-50 hover:bg-red-100 text-red-600 rounded-xl text-xs font-bold transition">Limpar Vendas</button>
                 </div>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                <div class="p-4 bg-slate-50 border-b border-slate-100 font-semibold text-slate-700 text-sm">
-                    <i class="fa-solid fa-file-invoice-dollar text-emerald-600 mr-2"></i>Histórico Detalhado de Vendas
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                <div class="p-4 bg-slate-50/80 border-b border-slate-200/60 font-bold text-slate-700 text-xs uppercase tracking-wider flex items-center gap-2">
+                    <i class="fa-solid fa-file-invoice-dollar text-emerald-600"></i> Histórico Detalhado de Vendas
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-sm">
                         <thead>
-                            <tr class="bg-slate-100/70 text-slate-600 border-b border-slate-200">
-                                <th class="p-3 font-semibold">Data/Hora</th>
-                                <th class="p-3 font-semibold">Cliente</th>
-                                <th class="p-3 font-semibold">Pagamento</th>
-                                <th class="p-3 font-semibold text-right">Total Venda</th>
-                                <th class="p-3 font-semibold text-right">Lucro</th>
+                            <tr class="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                                <th class="p-3.5 font-bold">Data/Hora</th>
+                                <th class="p-3.5 font-bold">Cliente</th>
+                                <th class="p-3.5 font-bold">Pagamento</th>
+                                <th class="p-3.5 font-bold text-right">Total Venda</th>
+                                <th class="p-3.5 font-bold text-right">Lucro</th>
                             </tr>
                         </thead>
                         <tbody id="tabela-vendas-corpo">
-                            <tr><td colspan="5" class="p-6 text-center text-slate-400 italic">Nenhuma venda registrada.</td></tr>
+                            <tr><td colspan="5" class="p-8 text-center text-slate-400 italic">Nenhuma venda registrada até o momento.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -305,48 +325,51 @@
 
         <!-- ABA: CONTAS A PAGAR E RECEBER -->
         <section id="tab-financeiro" class="hidden space-y-4">
-            <div class="bg-white p-5 rounded-xl shadow-sm border border-slate-100">
-                <h2 class="font-bold text-lg text-slate-700 mb-4"><i class="fa-solid fa-wallet text-emerald-600 mr-2"></i>Lançar Conta (Pagar / Receber)</h2>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80">
+                <h2 class="font-bold text-base text-slate-800 mb-4 flex items-center gap-2">
+                    <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-wallet"></i></span>
+                    Lançar Conta (Pagar / Receber)
+                </h2>
                 <form id="form-conta" onsubmit="salvarConta(event)" class="grid grid-cols-1 sm:grid-cols-5 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Tipo</label>
-                        <select id="conta-tipo" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Tipo</label>
+                        <select id="conta-tipo" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                             <option value="Pagar">Conta a Pagar (Despesa)</option>
                             <option value="Receber">Conta a Receber (Receita)</option>
                         </select>
                     </div>
                     <div class="sm:col-span-2">
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Descrição</label>
-                        <input type="text" id="conta-desc" required placeholder="Ex: Fornecedor / Aluguel / Serviço" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Descrição</label>
+                        <input type="text" id="conta-desc" required placeholder="Ex: Fornecedor / Aluguel" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Valor (R$)</label>
-                        <input type="number" id="conta-valor" step="0.01" required placeholder="0.00" class="w-full p-2.5 border border-slate-300 rounded-lg text-sm">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Valor (R$)</label>
+                        <input type="number" id="conta-valor" step="0.01" required placeholder="0.00" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-slate-500 mb-1">Ação</label>
-                        <button type="submit" class="w-full bg-emerald-600 text-white py-2.5 rounded-lg hover:bg-emerald-700 transition font-medium text-sm">Adicionar Conta</button>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Ação</label>
+                        <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl transition font-semibold text-sm shadow-md">Adicionar Conta</button>
                     </div>
                 </form>
             </div>
 
-            <div class="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
-                <div class="p-4 bg-slate-50 border-b border-slate-100 font-semibold text-slate-700 text-sm">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                <div class="p-4 bg-slate-50/80 border-b border-slate-200/60 font-bold text-slate-700 text-xs uppercase tracking-wider">
                     Lançamentos Financeiros
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-sm">
                         <thead>
-                            <tr class="bg-slate-100/70 text-slate-600 border-b border-slate-200">
-                                <th class="p-3 font-semibold">Tipo</th>
-                                <th class="p-3 font-semibold">Descrição</th>
-                                <th class="p-3 font-semibold text-right">Valor</th>
-                                <th class="p-3 font-semibold text-center">Status</th>
-                                <th class="p-3 font-semibold text-center">Ações</th>
+                            <tr class="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
+                                <th class="p-3.5 font-bold">Tipo</th>
+                                <th class="p-3.5 font-bold">Descrição</th>
+                                <th class="p-3.5 font-bold text-right">Valor</th>
+                                <th class="p-3.5 font-bold text-center">Status</th>
+                                <th class="p-3.5 font-bold text-center">Ações</th>
                             </tr>
                         </thead>
                         <tbody id="tabela-contas-corpo">
-                            <tr><td colspan="5" class="p-6 text-center text-slate-400 italic">Nenhuma conta cadastrada.</td></tr>
+                            <tr><td colspan="5" class="p-8 text-center text-slate-400 italic">Nenhuma conta cadastrada.</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -356,31 +379,31 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-slate-200 py-3 text-center text-xs text-slate-500 mt-auto">
+    <footer class="bg-white border-t border-slate-200 py-4 text-center text-xs text-slate-500 mt-auto shadow-inner">
         Pinheiro Assessoria e Representações Comerciais • CPF 102.644.827-19 • Bruno Pinheiro • Pix: 21999869070
     </footer>
 
-    <!-- JavaScript Lógico com Recuperação de Versões Anteriores -->
+    <!-- JavaScript Lógico Robusto e Sem Erros -->
     <script>
-        // Chave Única Segura para a v1.4
-        const STORAGE_KEY = 'pinheiro_sistema_v1_dados';
+        const STORAGE_KEY = 'pinheiro_sistema_v15_dados';
 
-        // Sistema de Carregamento e Migração Segura de Versões Anteriores
         function carregarDados() {
             let dadosSalvos = localStorage.getItem(STORAGE_KEY);
             if (dadosSalvos) {
-                return JSON.parse(dadosSalvos);
+                try {
+                    return JSON.parse(dadosSalvos);
+                } catch(e) {}
             }
 
-            // Se não tiver na chave nova, tenta resgatar das chaves antigas automaticamente para não perder nada!
-            let produtosAntigos = JSON.parse(localStorage.getItem('pinheiro_produtos')) || JSON.parse(localStorage.getItem('clara_produtos'));
-            let clientesAntigos = JSON.parse(localStorage.getItem('pinheiro_clientes')) || JSON.parse(localStorage.getItem('clara_clientes'));
-            let vendas Antigas = JSON.parse(localStorage.getItem('pinheiro_vendas')) || JSON.parse(localStorage.getItem('clara_vendas'));
-            let contasAntigas = JSON.parse(localStorage.getItem('pinheiro_contas'));
+            // Migração automática sem perda de dados
+            let produtosAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v1_dados'))?.produtos || JSON.parse(localStorage.getItem('pinheiro_produtos')) || JSON.parse(localStorage.getItem('clara_produtos'));
+            let clientesAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v1_dados'))?.clientes || JSON.parse(localStorage.getItem('pinheiro_clientes')) || JSON.parse(localStorage.getItem('clara_clientes'));
+            let vendasAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v1_dados'))?.vendas || JSON.parse(localStorage.getItem('pinheiro_vendas')) || JSON.parse(localStorage.getItem('clara_vendas'));
+            let contasAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v1_dados'))?.contas || JSON.parse(localStorage.getItem('pinheiro_contas'));
 
             let dadosMigrados = {
                 produtos: produtosAntigos || [
-                    { id: 1, nome: 'Produto / Item Exemplo', custo: 50.00, preco: 100.00, controlar: 'Nao', estoque: 0 }
+                    { id: 1, nome: 'Consultoria / Serviço Exemplo', custo: 50.00, preco: 150.00, controlar: 'Nao', estoque: 0 }
                 ],
                 clientes: clientesAntigos || [
                     { id: 1, nome: 'Cliente Exemplo Ltda', fone: '21988887777' }
@@ -389,7 +412,7 @@
                 contas: contasAntigas || []
             };
 
-            salvarDadosGerais(dadosMigrados);
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosMigrados));
             return dadosMigrados;
         }
 
@@ -410,24 +433,19 @@
             localStorage.setItem(STORAGE_KEY, JSON.stringify(dados));
         }
 
-        function salvarDadosGerais(dadosObj) {
-            localStorage.setItem(STORAGE_KEY, JSON.stringify(dadosObj));
-        }
-
-        // Funções de Backup (Exportar e Importar JSON)
         function exportarBackup() {
             let dados = {
                 produtos: produtos,
                 clientes: clientes,
                 vendas: vendas,
                 contas: contas,
-                versao: "1.4",
+                versao: "1.5",
                 dataBackup: new Date().toLocaleString('pt-BR')
             };
             let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dados, null, 2));
             let downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `backup_pinheiro_v1.4_${new Date().toISOString().slice(0,10)}.json`);
+            downloadAnchor.setAttribute("download", `backup_pinheiro_v1.5_${new Date().toISOString().slice(0,10)}.json`);
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
@@ -452,7 +470,7 @@
                         renderClientes();
                         renderVendas();
                         renderContas();
-                        alert('Backup restaurado com sucesso! Seus dados foram recuperados.');
+                        alert('Backup restaurado com sucesso!');
                     } else {
                         alert('Arquivo de backup inválido.');
                     }
@@ -469,8 +487,8 @@
                 const btn = document.getElementById(`btn-${t}`);
                 if(el) el.classList.add('hidden');
                 if(btn) {
-                    btn.classList.remove('bg-emerald-800', 'shadow-inner');
-                    btn.classList.add('bg-emerald-900/50');
+                    btn.classList.remove('bg-emerald-700', 'shadow-md', 'ring-2', 'ring-emerald-400/40');
+                    btn.classList.add('bg-emerald-900/60', 'text-emerald-100');
                 }
             });
             
@@ -479,8 +497,8 @@
             
             if(targetTab) targetTab.classList.remove('hidden');
             if(targetBtn) {
-                targetBtn.classList.remove('bg-emerald-900/50');
-                targetBtn.classList.add('bg-emerald-800', 'shadow-inner');
+                targetBtn.classList.remove('bg-emerald-900/60', 'text-emerald-100');
+                targetBtn.classList.add('bg-emerald-700', 'shadow-md', 'ring-2', 'ring-emerald-400/40');
             }
             
             if(tabName === 'produtos') renderProdutos();
@@ -540,9 +558,13 @@
 
         function renderCarrinho() {
             const tbody = document.getElementById('lista-carrinho');
+            const badge = document.getElementById('badge-qtd-itens');
             if(!tbody) return;
+            
+            if(badge) badge.innerText = `${carrinho.length} ${carrinho.length === 1 ? 'item' : 'itens'}`;
+
             if(carrinho.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400 italic">Nenhum item adicionado ainda.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 italic">Nenhum item adicionado ao carrinho ainda.</td></tr>`;
                 document.getElementById('txt-subtotal').innerText = 'R$ 0,00';
                 document.getElementById('txt-total').innerText = 'R$ 0,00';
                 return;
@@ -553,13 +575,13 @@
             carrinho.forEach((item, index) => {
                 total += item.subtotal;
                 tbody.innerHTML += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="p-3 font-medium text-slate-700">${item.nome}</td>
-                        <td class="p-3 text-center">${item.qtd}</td>
-                        <td class="p-3 text-right">R$ ${item.preco.toFixed(2)}</td>
-                        <td class="p-3 text-right font-semibold">R$ ${item.subtotal.toFixed(2)}</td>
-                        <td class="p-3 text-center">
-                            <button onclick="removerItemCarrinho(${index})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                    <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition">
+                        <td class="p-3.5 font-semibold text-slate-700">${item.nome}</td>
+                        <td class="p-3.5 text-center">${item.qtd}</td>
+                        <td class="p-3.5 text-right text-slate-600">R$ ${item.preco.toFixed(2)}</td>
+                        <td class="p-3.5 text-right font-bold text-slate-800">R$ ${item.subtotal.toFixed(2)}</td>
+                        <td class="p-3.5 text-center">
+                            <button onclick="removerItemCarrinho(${index})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition inline-flex items-center justify-center" title="Remover"><i class="fa-solid fa-trash text-xs"></i></button>
                         </td>
                     </tr>
                 `;
@@ -618,7 +640,7 @@
             document.getElementById('prod-controlar-estoque').value = p.controlar;
             document.getElementById('prod-estoque').value = p.estoque;
 
-            document.getElementById('titulo-form-produto').innerHTML = `<i class="fa-solid fa-pen-to-square text-emerald-600 mr-2"></i>Editar Produto ou Serviço`;
+            document.getElementById('titulo-form-produto').innerHTML = `<span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-pen"></i></span> Editar Produto ou Serviço`;
             document.getElementById('btn-salvar-produto').innerText = 'Atualizar';
             document.getElementById('container-cancelar-edicao').classList.remove('hidden');
             window.scrollTo({top: 0, behavior: 'smooth'});
@@ -627,7 +649,7 @@
         function cancelarEdicaoProduto() {
             document.getElementById('form-produto').reset();
             document.getElementById('prod-id').value = '';
-            document.getElementById('titulo-form-produto').innerHTML = `<i class="fa-solid fa-boxes-stacked text-emerald-600 mr-2"></i>Cadastrar Produto ou Serviço`;
+            document.getElementById('titulo-form-produto').innerHTML = `<span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-boxes-stacked"></i></span> Cadastrar Produto ou Serviço`;
             document.getElementById('btn-salvar-produto').innerText = 'Salvar';
             document.getElementById('container-cancelar-edicao').classList.add('hidden');
         }
@@ -636,7 +658,7 @@
             const tbody = document.getElementById('tabela-produtos-corpo');
             if(!tbody) return;
             if(produtos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400 italic">Nenhum item cadastrado.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic">Nenhum item cadastrado.</td></tr>`;
                 return;
             }
             tbody.innerHTML = '';
@@ -644,15 +666,15 @@
                 const lucroUnit = p.preco - p.custo;
                 const statusEstoque = p.controlar === 'Sim' ? p.estoque : 'Não controlado';
                 tbody.innerHTML += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="p-3 font-medium text-slate-700">${p.nome}</td>
-                        <td class="p-3 text-right text-slate-500">R$ ${p.custo.toFixed(2)}</td>
-                        <td class="p-3 text-right font-semibold">R$ ${p.preco.toFixed(2)}</td>
-                        <td class="p-3 text-right text-emerald-600 font-semibold">R$ ${lucroUnit.toFixed(2)}</td>
-                        <td class="p-3 text-center">${statusEstoque}</td>
-                        <td class="p-3 text-center flex justify-center gap-2">
-                            <button onclick="editarProduto(${p.id})" class="text-blue-500 hover:text-blue-700" title="Editar"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="removerProduto(${p.id})" class="text-red-500 hover:text-red-700" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+                    <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition">
+                        <td class="p-3.5 font-semibold text-slate-700">${p.nome}</td>
+                        <td class="p-3.5 text-right text-slate-500">R$ ${p.custo.toFixed(2)}</td>
+                        <td class="p-3.5 text-right font-bold text-slate-800">R$ ${p.preco.toFixed(2)}</td>
+                        <td class="p-3.5 text-right font-bold text-emerald-600">R$ ${lucroUnit.toFixed(2)}</td>
+                        <td class="p-3.5 text-center text-slate-600">${statusEstoque}</td>
+                        <td class="p-3.5 text-center flex justify-center gap-2">
+                            <button onclick="editarProduto(${p.id})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition inline-flex items-center justify-center" title="Editar"><i class="fa-solid fa-pen text-xs"></i></button>
+                            <button onclick="removerProduto(${p.id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition inline-flex items-center justify-center" title="Excluir"><i class="fa-solid fa-trash text-xs"></i></button>
                         </td>
                     </tr>
                 `;
@@ -704,7 +726,7 @@
             document.getElementById('cli-nome').value = c.nome;
             document.getElementById('cli-fone').value = c.fone || '';
 
-            document.getElementById('titulo-form-cliente').innerHTML = `<i class="fa-solid fa-user-pen text-emerald-600 mr-2"></i>Editar Cliente`;
+            document.getElementById('titulo-form-cliente').innerHTML = `<span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-user-pen"></i></span> Editar Cliente`;
             document.getElementById('btn-salvar-cliente').innerText = 'Atualizar';
             document.getElementById('btn-cancelar-cliente').classList.remove('hidden');
             window.scrollTo({top: 0, behavior: 'smooth'});
@@ -713,7 +735,7 @@
         function cancelarEdicaoCliente() {
             document.getElementById('form-cliente').reset();
             document.getElementById('cli-id').value = '';
-            document.getElementById('titulo-form-cliente').innerHTML = `<i class="fa-solid fa-user-plus text-emerald-600 mr-2"></i>Cadastrar Cliente`;
+            document.getElementById('titulo-form-cliente').innerHTML = `<span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-user-plus"></i></span> Cadastrar Cliente`;
             document.getElementById('btn-salvar-cliente').innerText = 'Cadastrar';
             document.getElementById('btn-cancelar-cliente').classList.add('hidden');
         }
@@ -722,18 +744,18 @@
             const tbody = document.getElementById('tabela-clientes-corpo');
             if(!tbody) return;
             if(clientes.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" class="p-6 text-center text-slate-400 italic">Nenhum cliente cadastrado.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-slate-400 italic">Nenhum cliente cadastrado.</td></tr>`;
                 return;
             }
             tbody.innerHTML = '';
             clientes.forEach(c => {
                 tbody.innerHTML += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="p-3 font-medium text-slate-700">${c.nome}</td>
-                        <td class="p-3">${c.fone || '-'}</td>
-                        <td class="p-3 text-center flex justify-center gap-2">
-                            <button onclick="editarCliente(${c.id})" class="text-blue-500 hover:text-blue-700" title="Editar"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="removerCliente(${c.id})" class="text-red-500 hover:text-red-700" title="Excluir"><i class="fa-solid fa-trash"></i></button>
+                    <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition">
+                        <td class="p-3.5 font-semibold text-slate-700">${c.nome}</td>
+                        <td class="p-3.5 text-slate-600">${c.fone || '-'}</td>
+                        <td class="p-3.5 text-center flex justify-center gap-2">
+                            <button onclick="editarCliente(${c.id})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition inline-flex items-center justify-center" title="Editar"><i class="fa-solid fa-pen text-xs"></i></button>
+                            <button onclick="removerCliente(${c.id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition inline-flex items-center justify-center" title="Excluir"><i class="fa-solid fa-trash text-xs"></i></button>
                         </td>
                     </tr>
                 `;
@@ -823,7 +845,7 @@
             let lucroTotal = 0;
 
             if(vendas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400 italic">Nenhuma venda registrada.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 italic">Nenhuma venda registrada até o momento.</td></tr>`;
                 document.getElementById('resumo-faturamento').innerText = 'R$ 0,00';
                 document.getElementById('resumo-lucro').innerText = 'R$ 0,00';
                 return;
@@ -834,12 +856,12 @@
                 faturamentoTotal += v.total;
                 lucroTotal += (v.lucro || 0);
                 tbody.innerHTML += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="p-3 text-slate-500 text-xs">${v.data}</td>
-                        <td class="p-3 font-medium text-slate-700">${v.cliente}</td>
-                        <td class="p-3">${v.pagamento}</td>
-                        <td class="p-3 text-right font-bold text-slate-700">R$ ${v.total.toFixed(2)}</td>
-                        <td class="p-3 text-right font-bold text-emerald-600">R$ ${(v.lucro || 0).toFixed(2)}</td>
+                    <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition">
+                        <td class="p-3.5 text-slate-500 text-xs">${v.data}</td>
+                        <td class="p-3.5 font-semibold text-slate-700">${v.cliente}</td>
+                        <td class="p-3.5 text-slate-600">${v.pagamento}</td>
+                        <td class="p-3.5 text-right font-bold text-slate-800">R$ ${v.total.toFixed(2)}</td>
+                        <td class="p-3.5 text-right font-bold text-emerald-600">R$ ${(v.lucro || 0).toFixed(2)}</td>
                     </tr>
                 `;
             });
@@ -876,20 +898,20 @@
             const tbody = document.getElementById('tabela-contas-corpo');
             if(!tbody) return;
             if(contas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-slate-400 italic">Nenhuma conta cadastrada.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="5" class="p-8 text-center text-slate-400 italic">Nenhuma conta cadastrada.</td></tr>`;
                 return;
             }
             tbody.innerHTML = '';
             contas.forEach(c => {
-                const corTipo = c.tipo === 'Receber' ? 'text-emerald-600' : 'text-red-600';
+                const corTipo = c.tipo === 'Receber' ? 'text-emerald-600 bg-emerald-50' : 'text-red-600 bg-red-50';
                 tbody.innerHTML += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="p-3 font-semibold ${corTipo}">${c.tipo}</td>
-                        <td class="p-3 text-slate-700">${c.desc}</td>
-                        <td class="p-3 text-right font-bold">R$ ${c.valor.toFixed(2)}</td>
-                        <td class="p-3 text-center"><span class="px-2 py-0.5 bg-amber-50 text-amber-700 rounded text-xs">${c.status}</span></td>
-                        <td class="p-3 text-center">
-                            <button onclick="removerConta(${c.id})" class="text-red-500 hover:text-red-700"><i class="fa-solid fa-trash"></i></button>
+                    <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition">
+                        <td class="p-3.5"><span class="px-2.5 py-1 rounded-lg text-xs font-bold ${corTipo}">${c.tipo}</span></td>
+                        <td class="p-3.5 font-medium text-slate-700">${c.desc}</td>
+                        <td class="p-3.5 text-right font-bold text-slate-800">R$ ${c.valor.toFixed(2)}</td>
+                        <td class="p-3.5 text-center"><span class="px-2.5 py-1 bg-amber-50 text-amber-700 rounded-lg text-xs font-bold">${c.status}</span></td>
+                        <td class="p-3.5 text-center">
+                            <button onclick="removerConta(${c.id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition inline-flex items-center justify-center" title="Excluir"><i class="fa-solid fa-trash text-xs"></i></button>
                         </td>
                     </tr>
                 `;
@@ -902,6 +924,7 @@
             renderContas();
         }
 
+        // Inicialização limpa
         atualizarSelects();
     </script>
 </body>
