@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pinheiro Assessoria - PDV & Orçamentos v1.7</title>
+    <title>Pinheiro Assessoria - PDV & Orçamentos v1.8 Enterprise</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome para Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js para Gráficos Executivos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
 
@@ -16,13 +18,13 @@
         <div class="max-w-7xl mx-auto px-4 py-3.5 flex flex-wrap justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-xl bg-emerald-600/50 border border-emerald-400/30 flex items-center justify-center shadow-inner">
-                    <i class="fa-solid fa-chart-line text-emerald-300 text-lg"></i>
+                    <i class="fa-solid fa-chart-pie text-emerald-300 text-lg"></i>
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
-                        Pinheiro Assessoria <span class="text-[10px] bg-emerald-500/30 border border-emerald-400/30 px-2 py-0.5 rounded-full text-emerald-200">v1.7 Pro</span>
+                        Pinheiro Assessoria <span class="text-[10px] bg-emerald-500/30 border border-emerald-400/30 px-2 py-0.5 rounded-full text-emerald-200">v1.8 Enterprise</span>
                     </h1>
-                    <p class="text-xs text-emerald-200/80">Gestão Comercial, Orçamentos & Caixa</p>
+                    <p class="text-xs text-emerald-200/80">Representações Comerciais, PDV & Gestão</p>
                 </div>
             </div>
             <nav class="flex flex-wrap gap-1.5 mt-3 sm:mt-0">
@@ -36,7 +38,7 @@
                     <i class="fa-solid fa-users"></i> Clientes
                 </button>
                 <button onclick="switchTab('vendas')" id="btn-vendas" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-100">
-                    <i class="fa-solid fa-file-invoice-dollar"></i> Vendas & Lucro
+                    <i class="fa-solid fa-file-invoice-dollar"></i> Vendas & Dashboard
                 </button>
                 <button onclick="switchTab('financeiro')" id="btn-financeiro" class="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center gap-2 bg-emerald-900/60 hover:bg-emerald-800 text-emerald-100">
                     <i class="fa-solid fa-wallet"></i> Contas
@@ -54,7 +56,7 @@
                 <div class="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
-                <span><b>Proteção de Dados v1.7:</b> Faça backup regular do sistema para total segurança.</span>
+                <span><b>Proteção de Dados v1.8:</b> Sistema com backup seguro e relatórios em tempo real.</span>
             </div>
             <div class="flex gap-2">
                 <button onclick="exportarBackup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl font-semibold transition flex items-center gap-1.5">
@@ -179,7 +181,7 @@
                     <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-boxes-stacked"></i></span>
                     Cadastrar Produto ou Serviço
                 </h2>
-                <form id="form-produto" onsubmit="salvarProduto(event)" class="grid grid-cols-1 sm:grid-cols-5 gap-4">
+                <form id="form-produto" onsubmit="salvarProduto(event)" class="grid grid-cols-1 sm:grid-cols-6 gap-4">
                     <input type="hidden" id="prod-id">
                     <div class="sm:col-span-2">
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nome do Item</label>
@@ -194,23 +196,25 @@
                         <input type="number" id="prod-preco" step="0.01" required placeholder="0.00" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Controle Estoque</label>
-                        <div class="flex gap-2">
-                            <select id="prod-controlar-estoque" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
-                                <option value="Nao">Não controlar</option>
-                                <option value="Sim">Controlar</option>
-                            </select>
-                            <button type="submit" id="btn-salvar-produto" class="bg-emerald-600 hover:bg-emerald-700 text-white px-5 rounded-xl transition font-semibold shadow-md">Salvar</button>
-                        </div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Comissão (%)</label>
+                        <input type="number" id="prod-comissao" step="0.01" value="0" placeholder="0.00" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Estoque?</label>
+                        <select id="prod-controlar-estoque" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                            <option value="Nao">Não</option>
+                            <option value="Sim">Sim</option>
+                        </select>
                     </div>
                 </form>
-                <div class="mt-3.5 flex items-center gap-3">
-                    <div>
+                <div class="mt-4 flex items-center justify-between">
+                    <div class="w-1/4">
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Qtd Inicial Estoque</label>
                         <input type="number" id="prod-estoque" step="any" value="0" placeholder="0" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm">
                     </div>
-                    <div id="container-cancelar-edicao" class="hidden pt-6">
-                        <button type="button" onclick="cancelarEdicaoProduto()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-3 rounded-xl transition font-semibold text-xs">Cancelar Edição</button>
+                    <div class="flex gap-2 pt-5">
+                        <button type="button" id="container-cancelar-edicao" onclick="cancelarEdicaoProduto()" class="hidden bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-3 rounded-xl transition font-semibold text-xs">Cancelar</button>
+                        <button type="submit" form="form-produto" id="btn-salvar-produto" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl transition font-semibold shadow-md text-sm">Salvar Item</button>
                     </div>
                 </div>
             </div>
@@ -226,7 +230,8 @@
                                 <th class="p-3.5 font-bold">Nome</th>
                                 <th class="p-3.5 font-bold text-right">Custo</th>
                                 <th class="p-3.5 font-bold text-right">Venda</th>
-                                <th class="p-3.5 font-bold text-right">Lucro Unit.</th>
+                                <th class="p-3.5 font-bold text-right">Comissão</th>
+                                <th class="p-3.5 font-bold text-right">Lucro Líquido</th>
                                 <th class="p-3.5 font-bold text-center">Estoque</th>
                                 <th class="p-3.5 font-bold text-center">Ações</th>
                             </tr>
@@ -244,7 +249,7 @@
                     <span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-user-plus"></i></span>
                     Cadastrar Cliente
                 </h2>
-                <form id="form-cliente" onsubmit="salvarCliente(event)" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <form id="form-cliente" onsubmit="salvarCliente(event)" class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                     <input type="hidden" id="cli-id">
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Nome do Cliente</label>
@@ -253,6 +258,10 @@
                     <div>
                         <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">Telefone / WhatsApp</label>
                         <input type="text" id="cli-fone" placeholder="21 99999-9999" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1.5">E-mail</label>
+                        <input type="email" id="cli-email" placeholder="cliente@email.com" class="w-full p-3 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-emerald-500 focus:bg-white focus:outline-none transition">
                     </div>
                     <div class="flex items-end gap-2">
                         <button type="submit" id="btn-salvar-cliente" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl transition font-semibold shadow-md">Cadastrar</button>
@@ -271,6 +280,7 @@
                             <tr class="bg-slate-50/50 text-slate-500 text-xs uppercase tracking-wider border-b border-slate-200">
                                 <th class="p-3.5 font-bold">Nome</th>
                                 <th class="p-3.5 font-bold">Telefone</th>
+                                <th class="p-3.5 font-bold">E-mail</th>
                                 <th class="p-3.5 font-bold text-center">Ações</th>
                             </tr>
                         </thead>
@@ -280,15 +290,16 @@
             </div>
         </section>
 
-        <!-- ABA: HISTÓRICO DE VENDAS E LUCRO -->
-        <section id="tab-vendas" class="hidden space-y-4">
+        <!-- ABA: HISTÓRICO DE VENDAS E DASHBOARD EXECUTIVO -->
+        <section id="tab-vendas" class="hidden space-y-5">
+            <!-- Cards KPI -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
                     <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Faturamento Total</span>
                     <div id="resumo-faturamento" class="text-2xl font-extrabold text-slate-800 mt-1">R$ 0,00</div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
-                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lucro Líquido Estimado</span>
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Lucro Líquido Real</span>
                     <div id="resumo-lucro" class="text-2xl font-extrabold text-emerald-600 mt-1">R$ 0,00</div>
                 </div>
                 <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
@@ -300,10 +311,33 @@
                 </div>
             </div>
 
+            <!-- Gráficos Executivos -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                    <h3 class="font-bold text-sm text-slate-700 mb-3"><i class="fa-solid fa-chart-line text-emerald-600 mr-2"></i>Faturamento Recente</h3>
+                    <div class="h-64"><canvas id="chartFaturamento"></canvas></div>
+                </div>
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+                    <h3 class="font-bold text-sm text-slate-700 mb-3"><i class="fa-solid fa-chart-pie text-emerald-600 mr-2"></i>Formas de Pagamento</h3>
+                    <div class="h-64 flex justify-center"><canvas id="chartPagamentos"></canvas></div>
+                </div>
+            </div>
+
+            <!-- Filtros de Busca -->
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-wrap gap-3 items-center justify-between">
+                <div class="flex flex-wrap gap-2 items-center">
+                    <button onclick="filtrarVendas('todas')" id="filtro-todas" class="px-4 py-2 bg-emerald-700 text-white rounded-xl text-xs font-bold shadow">Todas</button>
+                    <button onclick="filtrarVendas('hoje')" id="filtro-hoje" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold">Hoje</button>
+                    <button onclick="filtrarVendas('mes')" id="filtro-mes" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold">Este Mês</button>
+                </div>
+                <div>
+                    <input type="text" id="busca-venda" oninput="renderVendas()" placeholder="Buscar por cliente..." class="p-2.5 px-4 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none w-64">
+                </div>
+            </div>
+
             <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
                 <div class="p-4 bg-slate-50/80 border-b border-slate-200/60 font-bold text-slate-700 text-xs uppercase tracking-wider flex items-center justify-between">
                     <span><i class="fa-solid fa-file-invoice-dollar text-emerald-600 mr-2"></i> Histórico Detalhado de Vendas</span>
-                    <span class="text-xs font-normal text-slate-500">Dica: Você pode editar o cliente e a forma de pagamento clicando no botão de edição.</span>
                 </div>
                 <div class="overflow-x-auto">
                     <table class="w-full text-left border-collapse text-sm">
@@ -312,8 +346,8 @@
                                 <th class="p-3.5 font-bold">Data/Hora</th>
                                 <th class="p-3.5 font-bold">Cliente</th>
                                 <th class="p-3.5 font-bold">Pagamento</th>
-                                <th class="p-3.5 font-bold text-right">Total Venda</th>
-                                <th class="p-3.5 font-bold text-right">Lucro</th>
+                                <th class="p-3.5 font-bold text-right">Total</th>
+                                <th class="p-3.5 font-bold text-right">Lucro Real</th>
                                 <th class="p-3.5 font-bold text-center">Ações</th>
                             </tr>
                         </thead>
@@ -380,25 +414,28 @@
 
     </main>
 
-    <!-- Modal de Envio de Comprovante Pós-Venda -->
+    <!-- Modal de Envio de Comprovante (WhatsApp ou E-mail) -->
     <div id="modal-comprovante" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-scale">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
             <div class="text-center space-y-2">
                 <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-xl">
                     <i class="fa-solid fa-check"></i>
                 </div>
                 <h3 class="font-bold text-lg text-slate-800">Venda Concluída com Sucesso!</h3>
-                <p class="text-xs text-slate-500">Deseja enviar o comprovante detalhado desta venda via WhatsApp para o cliente?</p>
+                <p class="text-xs text-slate-500">Escolha como deseja enviar o comprovante desta venda:</p>
             </div>
-            <div id="preview-comprovante" class="bg-slate-50 p-3 rounded-xl text-xs text-slate-600 font-mono border max-h-40 overflow-y-auto"></div>
-            <div class="flex gap-2 pt-2">
-                <button onclick="enviarComprovanteWhatsApp()" class="flex-1 bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 text-sm shadow-md">
-                    <i class="fa-brands fa-whatsapp text-base"></i> Enviar Comprovante
+            <div id="preview-comprovante" class="bg-slate-50 p-3 rounded-xl text-xs text-slate-600 font-mono border max-h-36 overflow-y-auto"></div>
+            <div class="grid grid-cols-2 gap-2 pt-2">
+                <button onclick="enviarComprovanteWhatsApp()" class="bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 text-xs shadow-md">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
                 </button>
-                <button onclick="fecharModalComprovante()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-3 rounded-xl font-semibold transition text-sm">
-                    Fechar
+                <button onclick="enviarComprovanteEmail()" class="bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 text-xs shadow-md">
+                    <i class="fa-solid fa-envelope text-sm"></i> E-mail
                 </button>
             </div>
+            <button onclick="fecharModalComprovante()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-2.5 rounded-xl font-semibold transition text-xs">
+                Fechar
+            </button>
         </div>
     </div>
 
@@ -422,7 +459,7 @@
                 </select>
             </div>
             <div class="flex gap-2 pt-2">
-                <button onclick="salvarEdicaoVenda()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold transition text-sm">Salvar Alteração</button>
+                <button onclick="salvarEdicaoVenda()" class="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold transition text-sm">Salvar</button>
                 <button onclick="fecharModalEdicaoVenda()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2.5 rounded-xl font-semibold transition text-sm">Cancelar</button>
             </div>
         </div>
@@ -433,9 +470,12 @@
         Pinheiro Assessoria e Representações Comerciais • CPF 102.644.827-19 • Bruno Pinheiro • Pix: 21999869070
     </footer>
 
-    <!-- JavaScript Lógico Versão 1.7 -->
+    <!-- JavaScript Lógico Versão 1.8 Enterprise -->
     <script>
-        const STORAGE_KEY = 'pinheiro_sistema_v17_dados';
+        const STORAGE_KEY = 'pinheiro_sistema_v18_dados';
+        let filtroAtual = 'todas';
+        let chartFatObj = null;
+        let chartPagObj = null;
 
         function carregarDados() {
             let dadosSalvos = localStorage.getItem(STORAGE_KEY);
@@ -443,14 +483,14 @@
                 try { return JSON.parse(dadosSalvos); } catch(e) {}
             }
 
-            let pAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v16_dados'))?.produtos || JSON.parse(localStorage.getItem('pinheiro_produtos'));
-            let cAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v16_dados'))?.clientes || JSON.parse(localStorage.getItem('pinheiro_clientes'));
-            let vAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v16_dados'))?.vendas || JSON.parse(localStorage.getItem('pinheiro_vendas'));
-            let cotAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v16_dados'))?.contas || JSON.parse(localStorage.getItem('pinheiro_contas'));
+            let pAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v17_dados'))?.produtos || JSON.parse(localStorage.getItem('pinheiro_produtos'));
+            let cAntigos = JSON.parse(localStorage.getItem('pinheiro_sistema_v17_dados'))?.clientes || JSON.parse(localStorage.getItem('pinheiro_clientes'));
+            let vAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v17_dados'))?.vendas || JSON.parse(localStorage.getItem('pinheiro_vendas'));
+            let cotAntigas = JSON.parse(localStorage.getItem('pinheiro_sistema_v17_dados'))?.contas || JSON.parse(localStorage.getItem('pinheiro_contas'));
 
             let dadosMigrados = {
-                produtos: pAntigos || [{ id: 1, nome: 'Consultoria / Serviço Exemplo', custo: 50.00, preco: 150.00, controlar: 'Nao', estoque: 0 }],
-                clientes: cAntigos || [{ id: 1, nome: 'Cliente Exemplo Ltda', fone: '21988887777' }],
+                produtos: pAntigos || [{ id: 1, nome: 'Consultoria / Serviço Exemplo', custo: 50.00, preco: 150.00, comissao: 0, controlar: 'Nao', estoque: 0 }],
+                clientes: cAntigos || [{ id: 1, nome: 'Cliente Exemplo Ltda', fone: '21988887777', email: 'cliente@exemplo.com' }],
                 vendas: vAntigas || [],
                 contas: cotAntigas || []
             };
@@ -472,11 +512,11 @@
         }
 
         function exportarBackup() {
-            let dados = { produtos, clientes, vendas, contas, versao: "1.7", dataBackup: new Date().toLocaleString('pt-BR') };
+            let dados = { produtos, clientes, vendas, contas, versao: "1.8", dataBackup: new Date().toLocaleString('pt-BR') };
             let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dados, null, 2));
             let downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
-            downloadAnchor.setAttribute("download", `backup_pinheiro_v1.7_${new Date().toISOString().slice(0,10)}.json`);
+            downloadAnchor.setAttribute("download", `backup_pinheiro_v1.8_${new Date().toISOString().slice(0,10)}.json`);
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
@@ -528,7 +568,7 @@
             
             if(tabName === 'produtos') renderProdutos();
             if(tabName === 'clientes') renderClientes();
-            if(tabName === 'vendas') renderVendas();
+            if(tabName === 'vendas') { renderVendas(); atualizarGraficos(); }
             if(tabName === 'financeiro') renderContas();
             if(tabName === 'pdv') atualizarSelects();
         }
@@ -546,9 +586,7 @@
             const selCli = document.getElementById('select-cliente');
             const editCli = document.getElementById('edit-venda-cliente');
             let opcoesCli = '<option value="Cliente Balcão / Geral">Cliente Balcão / Geral</option>';
-            clientes.forEach(c => {
-                opcoesCli += `<option value="${c.nome}">${c.nome}</option>`;
-            });
+            clientes.forEach(c => { opcoesCli += `<option value="${c.nome}">${c.nome}</option>`; });
 
             if(selCli) selCli.innerHTML = opcoesCli;
             if(editCli) editCli.innerHTML = opcoesCli;
@@ -566,14 +604,18 @@
             const produto = produtos.find(p => p.id == idProd);
             if(!produto) return;
 
+            let comissaoVal = (produto.preco * (produto.comissao || 0)) / 100;
+
             carrinho.push({
                 id: produto.id,
                 nome: produto.nome,
                 custo: produto.custo,
                 preco: produto.preco,
+                comissaoUnit: comissaoVal,
                 qtd: qtd,
                 subtotal: produto.preco * qtd,
-                subtotalCusto: produto.custo * qtd
+                subtotalCusto: produto.custo * qtd,
+                subtotalComissao: comissaoVal * qtd
             });
 
             document.getElementById('input-qtd').value = 1;
@@ -646,22 +688,23 @@
             document.getElementById('txt-total').innerText = `R$ ${total.toFixed(2)}`;
         }
 
-        // PRODUTOS
+        // PRODUTOS COM COMISSÃO
         function salvarProduto(e) {
             e.preventDefault();
             const idEdicao = document.getElementById('prod-id').value;
             const nome = document.getElementById('prod-nome').value;
             const custo = parseFloat(document.getElementById('prod-custo').value) || 0;
             const preco = parseFloat(document.getElementById('prod-preco').value) || 0;
+            const comissao = parseFloat(document.getElementById('prod-comissao').value) || 0;
             const controlar = document.getElementById('prod-controlar-estoque').value;
             const estoque = parseFloat(document.getElementById('prod-estoque').value) || 0;
 
             if(idEdicao) {
                 const p = produtos.find(item => item.id == idEdicao);
-                if(p) { p.nome = nome; p.custo = custo; p.preco = preco; p.controlar = controlar; p.estoque = estoque; }
+                if(p) { p.nome = nome; p.custo = custo; p.preco = preco; p.comissao = comissao; p.controlar = controlar; p.estoque = estoque; }
                 alert('Item atualizado com sucesso!');
             } else {
-                produtos.push({ id: Date.now(), nome, custo, preco, controlar, estoque });
+                produtos.push({ id: Date.now(), nome, custo, preco, comissao, controlar, estoque });
                 alert('Item cadastrado com sucesso!');
             }
             salvarDadosLocal();
@@ -677,10 +720,11 @@
             document.getElementById('prod-nome').value = p.nome;
             document.getElementById('prod-custo').value = p.custo;
             document.getElementById('prod-preco').value = p.preco;
+            document.getElementById('prod-comissao').value = p.comissao || 0;
             document.getElementById('prod-controlar-estoque').value = p.controlar;
             document.getElementById('prod-estoque').value = p.estoque;
             document.getElementById('titulo-form-produto').innerHTML = `<span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-pen"></i></span> Editar Produto ou Serviço`;
-            document.getElementById('btn-salvar-produto').innerText = 'Atualizar';
+            document.getElementById('btn-salvar-produto').innerText = 'Atualizar Item';
             document.getElementById('container-cancelar-edicao').classList.remove('hidden');
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
@@ -689,7 +733,7 @@
             document.getElementById('form-produto').reset();
             document.getElementById('prod-id').value = '';
             document.getElementById('titulo-form-produto').innerHTML = `<span class="w-8 h-8 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center"><i class="fa-solid fa-boxes-stacked"></i></span> Cadastrar Produto ou Serviço`;
-            document.getElementById('btn-salvar-produto').innerText = 'Salvar';
+            document.getElementById('btn-salvar-produto').innerText = 'Salvar Item';
             document.getElementById('container-cancelar-edicao').classList.add('hidden');
         }
 
@@ -697,19 +741,21 @@
             const tbody = document.getElementById('tabela-produtos-corpo');
             if(!tbody) return;
             if(produtos.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic">Nenhum item cadastrado.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="p-8 text-center text-slate-400 italic">Nenhum item cadastrado.</td></tr>`;
                 return;
             }
             tbody.innerHTML = '';
             produtos.forEach(p => {
-                const lucroUnit = p.preco - p.custo;
+                const comissaoVal = (p.preco * (p.comissao || 0)) / 100;
+                const lucroLiquido = p.preco - p.custo - comissaoVal;
                 const statusEstoque = p.controlar === 'Sim' ? p.estoque : 'Não controlado';
                 tbody.innerHTML += `
                     <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition">
                         <td class="p-3.5 font-semibold text-slate-700">${p.nome}</td>
                         <td class="p-3.5 text-right text-slate-500">R$ ${p.custo.toFixed(2)}</td>
                         <td class="p-3.5 text-right font-bold text-slate-800">R$ ${p.preco.toFixed(2)}</td>
-                        <td class="p-3.5 text-right font-bold text-emerald-600">R$ ${lucroUnit.toFixed(2)}</td>
+                        <td class="p-3.5 text-right text-amber-600 font-semibold">${(p.comissao || 0)}% (R$ ${comissaoVal.toFixed(2)})</td>
+                        <td class="p-3.5 text-right font-bold text-emerald-600">R$ ${lucroLiquido.toFixed(2)}</td>
                         <td class="p-3.5 text-center text-slate-600">${statusEstoque}</td>
                         <td class="p-3.5 text-center flex justify-center gap-2">
                             <button onclick="editarProduto(${p.id})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition inline-flex items-center justify-center" title="Editar"><i class="fa-solid fa-pen text-xs"></i></button>
@@ -735,13 +781,14 @@
             const idEdicao = document.getElementById('cli-id').value;
             const nome = document.getElementById('cli-nome').value;
             const fone = document.getElementById('cli-fone').value;
+            const email = document.getElementById('cli-email').value;
 
             if(idEdicao) {
                 const c = clientes.find(item => item.id == idEdicao);
-                if(c) { c.nome = nome; c.fone = fone; }
+                if(c) { c.nome = nome; c.fone = fone; c.email = email; }
                 alert('Cliente atualizado com sucesso!');
             } else {
-                clientes.push({ id: Date.now(), nome, fone });
+                clientes.push({ id: Date.now(), nome, fone, email });
                 alert('Cliente cadastrado com sucesso!');
             }
             salvarDadosLocal();
@@ -756,8 +803,9 @@
             document.getElementById('cli-id').value = c.id;
             document.getElementById('cli-nome').value = c.nome;
             document.getElementById('cli-fone').value = c.fone || '';
+            document.getElementById('cli-email').value = c.email || '';
             document.getElementById('titulo-form-cliente').innerHTML = `<span class="w-8 h-8 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-user-pen"></i></span> Editar Cliente`;
-            document.getElementById('btn-salvar-cliente').innerText = 'Atualizar';
+            document.getElementById('btn-salvar-cliente').innerText = 'Atualizar Cliente';
             document.getElementById('btn-cancelar-cliente').classList.remove('hidden');
             window.scrollTo({top: 0, behavior: 'smooth'});
         }
@@ -774,7 +822,7 @@
             const tbody = document.getElementById('tabela-clientes-corpo');
             if(!tbody) return;
             if(clientes.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" class="p-8 text-center text-slate-400 italic">Nenhum cliente cadastrado.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="4" class="p-8 text-center text-slate-400 italic">Nenhum cliente cadastrado.</td></tr>`;
                 return;
             }
             tbody.innerHTML = '';
@@ -783,6 +831,7 @@
                     <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition">
                         <td class="p-3.5 font-semibold text-slate-700">${c.nome}</td>
                         <td class="p-3.5 text-slate-600">${c.fone || '-'}</td>
+                        <td class="p-3.5 text-slate-600">${c.email || '-'}</td>
                         <td class="p-3.5 text-center flex justify-center gap-2">
                             <button onclick="editarCliente(${c.id})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition inline-flex items-center justify-center" title="Editar"><i class="fa-solid fa-pen text-xs"></i></button>
                             <button onclick="removerCliente(${c.id})" class="w-8 h-8 rounded-lg bg-red-50 text-red-500 hover:bg-red-100 transition inline-flex items-center justify-center" title="Excluir"><i class="fa-solid fa-trash text-xs"></i></button>
@@ -801,17 +850,18 @@
             }
         }
 
-        // TRANSAÇÃO & COMPROVANTE VIA WHATSAPP
+        // TRANSAÇÃO & COMPROVANTE (WhatsApp, E-mail ou Impressão Térmica)
         function finalizarTransacao() {
             if(carrinho.length === 0) {
                 alert('O carrinho está vazio.');
                 return;
             }
-            const cliente = document.getElementById('select-cliente').value || 'Cliente Balcão / Geral';
+            const clienteNome = document.getElementById('select-cliente').value || 'Cliente Balcão / Geral';
             const pagamento = document.getElementById('select-pagamento').value;
             const total = carrinho.reduce((sum, item) => sum + item.subtotal, 0);
             const totalCusto = carrinho.reduce((sum, item) => sum + item.subtotalCusto, 0);
-            const lucro = total - totalCusto;
+            const totalComissao = carrinho.reduce((sum, item) => sum + (item.subtotalComissao || 0), 0);
+            const lucroReal = total - totalCusto - totalComissao;
 
             carrinho.forEach(itemCarrinho => {
                 const prod = produtos.find(p => p.id == itemCarrinho.id);
@@ -823,10 +873,11 @@
             let novaVenda = {
                 id: Date.now(),
                 data: new Date().toLocaleString('pt-BR'),
-                cliente: cliente,
+                dataIso: new Date().toISOString(),
+                cliente: clienteNome,
                 pagamento: pagamento,
                 total: total,
-                lucro: lucro,
+                lucro: lucroReal,
                 itens: [...carrinho]
             };
 
@@ -839,7 +890,7 @@
             renderCarrinho();
         }
 
-        function mostrarModalComprovante(venda) {
+        function gerarTextoComprovante(venda) {
             let texto = `🧾 *COMPROVANTE DE VENDA - PINHEIRO ASSESSORIA*\n`;
             texto += `----------------------------------------\n`;
             texto += `📅 *Data:* ${venda.data}\n`;
@@ -852,9 +903,13 @@
             });
             texto += `----------------------------------------\n`;
             texto += `💰 *TOTAL PAGO: R$ ${venda.total.toFixed(2)}*\n\n`;
-            texto += `*Pinheiro Assessoria e Representações Comerciais*`;
+            texto += `*Pinheiro Assessoria e Representações Comerciais*\n`;
+            texto += `Chave Pix: 21999869070 (Bruno Pinheiro)`;
+            return texto;
+        }
 
-            document.getElementById('preview-comprovante').innerText = texto;
+        function mostrarModalComprovante(venda) {
+            document.getElementById('preview-comprovante').innerText = gerarTextoComprovante(venda);
             document.getElementById('modal-comprovante').classList.remove('hidden');
         }
 
@@ -864,10 +919,64 @@
 
         function enviarComprovanteWhatsApp() {
             if(!ultimaVendaGerada) return;
-            let texto = document.getElementById('preview-comprovante').innerText;
+            let texto = gerarTextoComprovante(ultimaVendaGerada);
             const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(texto)}`;
             window.open(url, '_blank');
             fecharModalComprovante();
+        }
+
+        function enviarComprovanteEmail() {
+            if(!ultimaVendaGerada) return;
+            let cliObj = clientes.find(c => c.nome === ultimaVendaGerada.cliente);
+            let emailDest = cliObj && cliObj.email ? cliObj.email : '';
+            let assunto = encodeURIComponent(`Comprovante de Venda - Pinheiro Assessoria`);
+            let corpo = encodeURIComponent(gerarTextoComprovante(ultimaVendaGerada).replace(/\*/g, ''));
+            window.location.href = `mailto:${emailDest}?subject=${assunto}&body=${corpo}`;
+            fecharModalComprovante();
+        }
+
+        function imprimirComprovante(idVenda) {
+            let venda = vendas.find(v => v.id == idVenda);
+            if(!venda) return;
+
+            let janela = window.open('', '', 'width=400,height=600');
+            janela.document.write(`
+                <html>
+                <head>
+                    <title>Recibo - Pinheiro Assessoria</title>
+                    <style>
+                        body { font-family: 'Courier New', Courier, monospace; font-size: 12px; width: 300px; padding: 10px; margin: 0 auto; color: #000; }
+                        h3, p { text-align: center; margin: 5px 0; }
+                        hr { border: dashed 1px #000; margin: 10px 0; }
+                        table { width: 100%; border-collapse: collapse; }
+                        th, td { text-align: left; padding: 4px 0; font-size: 11px; }
+                        .right { text-align: right; }
+                        .bold { font-weight: bold; }
+                    </style>
+                </head>
+                <body>
+                    <h3>PINHEIRO ASSESSORIA</h3>
+                    <p>Representações Comerciais</p>
+                    <p>CPF: 102.644.827-19</p>
+                    <hr>
+                    <p><b>Data:</b> ${venda.data}</p>
+                    <p><b>Cliente:</b> ${venda.cliente}</p>
+                    <p><b>Pagamento:</b> ${venda.pagamento}</p>
+                    <hr>
+                    <table>
+                        <tr><th>Item</th><th class="right">QtdxVal</th><th class="right">Sub</th></tr>
+                        ${venda.itens.map(i => `<tr><td>${i.nome}</td><td class="right">${i.qtd}x${i.preco.toFixed(2)}</td><td class="right">R$${i.subtotal.toFixed(2)}</td></tr>`).join('')}
+                    </table>
+                    <hr>
+                    <p class="bold right" style="font-size: 14px;">TOTAL: R$ ${venda.total.toFixed(2)}</p>
+                    <hr>
+                    <p style="text-align: center;">Obrigado pela preferência!</p>
+                </body>
+                </html>
+            `);
+            janela.document.close();
+            janela.focus();
+            setTimeout(() => { janela.print(); janela.close(); }, 500);
         }
 
         function gerarOrcamentoWhatsApp() {
@@ -894,7 +1003,7 @@
             texto += `🏦 *Dados para Pagamento (Pix):*\n`;
             texto += `• Favorecido: Bruno Pinheiro\n`;
             texto += `• CPF: 102.644.827-19\n`;
-            texto += `• Chave Pix (Celular): 21999869070\n`;
+            texto += `• Chave Pix: 21999869070\n`;
             texto += `----------------------------------------\n`;
             texto += `*Pinheiro Assessoria e Representações Comerciais*`;
 
@@ -902,7 +1011,142 @@
             window.open(url, '_blank');
         }
 
-        // EDIÇÃO DE VENDAS (Cliente e Pagamento)
+        // FILTROS E BUSCA DE VENDAS
+        function filtrarVendas(tipo) {
+            filtroAtual = tipo;
+            ['todas', 'hoje', 'mes'].forEach(f => {
+                let btn = document.getElementById(`filtro-${f}`);
+                if(btn) {
+                    if(f === tipo) {
+                        btn.className = "px-4 py-2 bg-emerald-700 text-white rounded-xl text-xs font-bold shadow";
+                    } else {
+                        btn.className = "px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-semibold";
+                    }
+                }
+            });
+            renderVendas();
+        }
+
+        function renderVendas() {
+            const tbody = document.getElementById('tabela-vendas-corpo');
+            const termoBusca = (document.getElementById('busca-venda')?.value || '').toLowerCase();
+            if(!tbody) return;
+
+            let faturamentoTotal = 0;
+            let lucroTotal = 0;
+            let hojeStr = new Date().toLocaleDateString('pt-BR');
+            let mesAtualStr = new Date().toISOString().slice(0, 7); // YYYY-MM
+
+            let vendasFiltradas = vendas.filter(v => {
+                let matchBusca = v.cliente.toLowerCase().includes(termoBusca);
+                if(!matchBusca) return false;
+
+                if(filtroAtual === 'hoje') {
+                    return v.data.startsWith(hojeStr);
+                } else if(filtroAtual === 'mes') {
+                    let vIso = v.dataIso ? v.dataIso.slice(0, 7) : '';
+                    return vIso === mesAtualStr;
+                }
+                return true;
+            });
+
+            if(vendasFiltradas.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic">Nenhuma venda encontrada.</td></tr>`;
+                document.getElementById('resumo-faturamento').innerText = 'R$ 0,00';
+                document.getElementById('resumo-lucro').innerText = 'R$ 0,00';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            vendasFiltradas.slice().reverse().forEach((v) => {
+                let realIndex = vendas.findIndex(item => item.id === v.id);
+                faturamentoTotal += v.total;
+                lucroTotal += (v.lucro || 0);
+                tbody.innerHTML += `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition">
+                        <td class="p-3.5 text-slate-500 text-xs">${v.data}</td>
+                        <td class="p-3.5 font-semibold text-slate-700">${v.cliente}</td>
+                        <td class="p-3.5 font-medium text-slate-700"><span class="px-2.5 py-1 bg-slate-100 rounded-lg text-xs">${v.pagamento}</span></td>
+                        <td class="p-3.5 text-right font-bold text-slate-800">R$ ${v.total.toFixed(2)}</td>
+                        <td class="p-3.5 text-right font-bold text-emerald-600">R$ ${(v.lucro || 0).toFixed(2)}</td>
+                        <td class="p-3.5 text-center flex justify-center gap-1.5">
+                            <button onclick="imprimirComprovante(${v.id})" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition inline-flex items-center justify-center" title="Imprimir Recibo"><i class="fa-solid fa-print text-xs"></i></button>
+                            <button onclick="abrirModalEdicaoVenda(${realIndex})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition inline-flex items-center justify-center" title="Editar Venda"><i class="fa-solid fa-pen text-xs"></i></button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('resumo-faturamento').innerText = `R$ ${faturamentoTotal.toFixed(2)}`;
+            document.getElementById('resumo-lucro').innerText = `R$ ${lucroTotal.toFixed(2)}`;
+        }
+
+        // DASHBOARD EXECUTIVO (CHART.JS)
+        function atualizarGraficos() {
+            // Gráfico 1: Faturamento últimos 7 dias
+            let diasMap = {};
+            for(let i=6; i>=0; i--) {
+                let d = new Date();
+                d.setDate(d.getDate() - i);
+                let dStr = d.toLocaleDateString('pt-BR');
+                diasMap[dStr] = 0;
+            }
+            vendas.forEach(v => {
+                let dataDia = v.data.split(',')[0].trim();
+                if(diasMap[dataDia] !== undefined) {
+                    diasMap[dataDia] += v.total;
+                }
+            });
+
+            let labelsFat = Object.keys(diasMap);
+            let valoresFat = Object.values(diasMap);
+
+            let ctxFat = document.getElementById('chartFaturamento');
+            if(ctxFat) {
+                if(chartFatObj) chartFatObj.destroy();
+                chartFatObj = new Chart(ctxFat, {
+                    type: 'line',
+                    data: {
+                        labels: labelsFat,
+                        datasets: [{
+                            label: 'Faturamento (R$)',
+                            data: valoresFat,
+                            borderColor: '#059669',
+                            backgroundColor: 'rgba(5, 150, 105, 0.1)',
+                            borderWidth: 3,
+                            fill: true,
+                            tension: 0.3
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+
+            // Gráfico 2: Formas de Pagamento
+            let pagMap = { 'Pix': 0, 'Dinheiro': 0, 'Débito': 0 };
+            vendas.forEach(v => {
+                if(pagMap[v.pagamento] !== undefined) pagMap[v.pagamento] += v.total;
+                else pagMap[v.pagamento] = v.total;
+            });
+
+            let ctxPag = document.getElementById('chartPagamentos');
+            if(ctxPag) {
+                if(chartPagObj) chartPagObj.destroy();
+                chartPagObj = new Chart(ctxPag, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(pagMap),
+                        datasets: [{
+                            data: Object.values(pagMap),
+                            backgroundColor: ['#059669', '#3b82f6', '#f59e0b']
+                        }]
+                    },
+                    options: { responsive: true, maintainAspectRatio: false }
+                });
+            }
+        }
+
+        // EDIÇÃO DE VENDAS
         function abrirModalEdicaoVenda(index) {
             let venda = vendas[index];
             document.getElementById('edit-venda-index').value = index;
@@ -924,45 +1168,10 @@
                 vendas[index].pagamento = novoPagamento;
                 salvarDadosLocal();
                 renderVendas();
+                atualizarGraficos();
                 fecharModalEdicaoVenda();
                 alert('Fechamento da venda atualizado com sucesso!');
             }
-        }
-
-        function renderVendas() {
-            const tbody = document.getElementById('tabela-vendas-corpo');
-            if(!tbody) return;
-            let faturamentoTotal = 0;
-            let lucroTotal = 0;
-
-            if(vendas.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="p-8 text-center text-slate-400 italic">Nenhuma venda registrada até o momento.</td></tr>`;
-                document.getElementById('resumo-faturamento').innerText = 'R$ 0,00';
-                document.getElementById('resumo-lucro').innerText = 'R$ 0,00';
-                return;
-            }
-
-            tbody.innerHTML = '';
-            vendas.slice().reverse().forEach((v, revIndex) => {
-                let realIndex = vendas.length - 1 - revIndex;
-                faturamentoTotal += v.total;
-                lucroTotal += (v.lucro || 0);
-                tbody.innerHTML += `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50/80 transition">
-                        <td class="p-3.5 text-slate-500 text-xs">${v.data}</td>
-                        <td class="p-3.5 font-semibold text-slate-700">${v.cliente}</td>
-                        <td class="p-3.5 font-medium text-slate-700"><span class="px-2.5 py-1 bg-slate-100 rounded-lg text-xs">${v.pagamento}</span></td>
-                        <td class="p-3.5 text-right font-bold text-slate-800">R$ ${v.total.toFixed(2)}</td>
-                        <td class="p-3.5 text-right font-bold text-emerald-600">R$ ${(v.lucro || 0).toFixed(2)}</td>
-                        <td class="p-3.5 text-center">
-                            <button onclick="abrirModalEdicaoVenda(${realIndex})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition inline-flex items-center justify-center" title="Editar Venda"><i class="fa-solid fa-pen text-xs"></i></button>
-                        </td>
-                    </tr>
-                `;
-            });
-
-            document.getElementById('resumo-faturamento').innerText = `R$ ${faturamentoTotal.toFixed(2)}`;
-            document.getElementById('resumo-lucro').innerText = `R$ ${lucroTotal.toFixed(2)}`;
         }
 
         function limparHistorico() {
@@ -970,6 +1179,7 @@
                 vendas = [];
                 salvarDadosLocal();
                 renderVendas();
+                atualizarGraficos();
             }
         }
 
