@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clara Distribuidora - PDV & Orçamentos v2.0</title>
+    <title>Clara Distribuidora - PDV & Orçamentos v2.0 (80mm)</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome para Ícones -->
@@ -12,6 +12,70 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- html2canvas para gerar imagem do recibo -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        @media print {
+            @page {
+                size: 80mm auto;
+                margin: 0;
+            }
+
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                width: 80mm !important;
+            }
+
+            header, main, footer, #modal-editar-venda, .no-print {
+                display: none !important;
+            }
+
+            #modal-comprovante {
+                display: block !important;
+                position: static !important;
+                background: #ffffff !important;
+                backdrop-filter: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 80mm !important;
+            }
+
+            #modal-comprovante > div {
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 80mm !important;
+                width: 80mm !important;
+            }
+
+            #recibo-container {
+                width: 74mm !important;
+                max-width: 74mm !important;
+                margin: 0 auto !important;
+                padding: 3mm 2mm !important;
+                border: none !important;
+                border-radius: 0 !important;
+                box-shadow: none !important;
+                font-family: 'Courier New', Courier, monospace !important;
+                color: #000000 !important;
+                font-size: 11px !important;
+                line-height: 1.3 !important;
+            }
+
+            #recibo-container h2 {
+                font-size: 14px !important;
+                color: #000000 !important;
+            }
+
+            #recibo-total {
+                color: #000000 !important;
+                font-size: 14px !important;
+            }
+        }
+    </style>
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
 
@@ -24,7 +88,7 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold tracking-wide flex items-center gap-2">
-                        Clara Distribuidora <span class="text-[10px] bg-emerald-500/30 border border-emerald-400/30 px-2 py-0.5 rounded-full text-emerald-200">v2.0 Imagem</span>
+                        Clara Distribuidora <span class="text-[10px] bg-emerald-500/30 border border-emerald-400/30 px-2 py-0.5 rounded-full text-emerald-200">v2.0 80mm</span>
                     </h1>
                     <p class="text-xs text-emerald-200/80">Do produtor para a sua casa!</p>
                 </div>
@@ -58,7 +122,7 @@
                 <div class="w-7 h-7 rounded-lg bg-emerald-50 flex items-center justify-center text-emerald-600">
                     <i class="fa-solid fa-shield-halved"></i>
                 </div>
-                <span><b>Proteção de Dados v2.0:</b> Recibos em formato de imagem segura (não editável).</span>
+                <span><b>Proteção de Dados v2.0:</b> Recibos em imagem segura e impressão padrão 80mm.</span>
             </div>
             <div class="flex gap-2">
                 <button onclick="exportarBackup()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-xl font-semibold transition flex items-center gap-1.5">
@@ -416,15 +480,15 @@
 
     </main>
 
-    <!-- Modal de Comprovante Visual (Gerador de Imagem PNG) -->
+    <!-- Modal de Comprovante Visual (Gerador de Imagem PNG e Impressão 80mm) -->
     <div id="modal-comprovante" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl space-y-4 my-auto">
-            <div class="text-center space-y-1">
-                <h3 class="font-bold text-xl text-slate-800">Recibo Pronto para Envio!</h3>
-                <p class="text-xs text-slate-500">Baixe como imagem (seguro contra edição) ou envie direto.</p>
+            <div class="text-center space-y-1 no-print">
+                <h3 class="font-bold text-xl text-slate-800">Recibo Pronto para Envio / 80mm!</h3>
+                <p class="text-xs text-slate-500">Imprima em bobina de 80mm, baixe como imagem ou envie direto.</p>
             </div>
 
-            <!-- Recibo Visual Formatado (Área gerada como Imagem) -->
+            <!-- Recibo Visual Formatado (Área gerada como Imagem e Impressão 80mm) -->
             <div id="recibo-container" class="bg-white p-6 rounded-2xl border-2 border-emerald-600 shadow-inner space-y-4 text-slate-800 font-sans">
                 <div class="text-center border-b border-slate-200 pb-3">
                     <h2 class="font-black text-lg text-emerald-800 tracking-wide">CLARA DISTRIBUIDORA</h2>
@@ -459,15 +523,18 @@
             </div>
 
             <!-- Botões de Ação -->
-            <div class="grid grid-cols-2 gap-2 pt-2">
-                <button onclick="baixarReciboImagem()" class="bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 text-xs shadow-md">
-                    <i class="fa-solid fa-download text-sm"></i> Baixar Imagem (PNG)
+            <div class="grid grid-cols-3 gap-2 pt-2 no-print">
+                <button onclick="imprimirRecibo80mm()" class="bg-slate-800 hover:bg-slate-900 text-white py-3 rounded-xl font-bold transition flex items-center justify-center gap-1.5 text-xs shadow-md">
+                    <i class="fa-solid fa-print text-sm"></i> Imprimir 80mm
                 </button>
-                <button onclick="enviarReciboWhatsAppImagem()" class="bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold transition flex items-center justify-center gap-2 text-xs shadow-md">
-                    <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp + Texto
+                <button onclick="baixarReciboImagem()" class="bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-bold transition flex items-center justify-center gap-1.5 text-xs shadow-md">
+                    <i class="fa-solid fa-download text-sm"></i> Baixar PNG
+                </button>
+                <button onclick="enviarReciboWhatsAppImagem()" class="bg-green-500 hover:bg-green-600 text-white py-3 rounded-xl font-bold transition flex items-center justify-center gap-1.5 text-xs shadow-md">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
                 </button>
             </div>
-            <button onclick="fecharModalComprovante()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-2.5 rounded-xl font-semibold transition text-xs">
+            <button onclick="fecharModalComprovante()" class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-2.5 rounded-xl font-semibold transition text-xs no-print">
                 Fechar
             </button>
         </div>
@@ -504,7 +571,7 @@
         Clara Distribuidora de Verduras e Legumes • Do produtor para a sua casa! • CPF: 102.644.827-19
     </footer>
 
-    <!-- JavaScript Lógico Versão 2.0 -->
+    <!-- JavaScript Lógico Versão 2.0 (80mm) -->
     <script>
         const STORAGE_KEY = 'clara_distribuidora_v20_dados';
         let filtroAtual = 'todas';
@@ -546,7 +613,7 @@
         }
 
         function exportarBackup() {
-            let dados = { produtos, clientes, vendas, contas, versao: "2.0", dataBackup: new Date().toLocaleString('pt-BR') };
+            let dados = { produtos, clientes, vendas, contas, versao: "2.0-80mm", dataBackup: new Date().toLocaleString('pt-BR') };
             let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dados, null, 2));
             let downloadAnchor = document.createElement('a');
             downloadAnchor.setAttribute("href", dataStr);
@@ -884,7 +951,7 @@
             }
         }
 
-        // TRANSAÇÃO & RECIBO VISUAL (IMAGEM SEGURA)
+        // TRANSAÇÃO & RECIBO VISUAL (IMAGEM SEGURA + IMPRESSÃO 80MM)
         function finalizarTransacao() {
             if(carrinho.length === 0) {
                 alert('O carrinho está vazio.');
@@ -949,6 +1016,10 @@
             document.getElementById('modal-comprovante').classList.add('hidden');
         }
 
+        function imprimirRecibo80mm() {
+            window.print();
+        }
+
         function baixarReciboImagem() {
             let elemento = document.getElementById('recibo-container');
             html2canvas(elemento, { scale: 2 }).then(canvas => {
@@ -987,6 +1058,7 @@
             let venda = vendas.find(v => v.id == idVenda);
             if(!venda) return;
             preencherReciboModal(venda);
+            setTimeout(() => window.print(), 200);
         }
 
         function gerarOrcamentoWhatsApp() {
@@ -1082,7 +1154,7 @@
                         <td class="p-3.5 text-right font-bold text-emerald-600">R$ ${(v.lucro || 0).toFixed(2)}</td>
                         <td class="p-3.5 text-center flex justify-center gap-1.5">
                             <button onclick="enviarWhatsAppHistorico(${v.id})" class="w-8 h-8 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition inline-flex items-center justify-center" title="Gerar Imagem Recibo"><i class="fa-brands fa-whatsapp text-xs"></i></button>
-                            <button onclick="imprimirComprovante(${v.id})" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition inline-flex items-center justify-center" title="Visualizar Recibo"><i class="fa-solid fa-eye text-xs"></i></button>
+                            <button onclick="imprimirComprovante(${v.id})" class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 hover:bg-emerald-100 transition inline-flex items-center justify-center" title="Imprimir 80mm"><i class="fa-solid fa-print text-xs"></i></button>
                             <button onclick="abrirModalEdicaoVenda(${realIndex})" class="w-8 h-8 rounded-lg bg-blue-50 text-blue-500 hover:bg-blue-100 transition inline-flex items-center justify-center" title="Editar Venda"><i class="fa-solid fa-pen text-xs"></i></button>
                         </td>
                     </tr>
